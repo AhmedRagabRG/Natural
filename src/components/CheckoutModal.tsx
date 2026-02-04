@@ -314,6 +314,10 @@ const CheckoutModal: React.FC = () => {
       const onlyDigits = (s: string | undefined) => (s ? s.replace(/\D/g, '') : undefined);
       const paymentTypeCode =
         state.checkout.form.paymentMethod === 'card' ? 2 : 1;
+        
+      // Prepare address with ground floor pickup note if applicable
+      const finalAddress = `${state.checkout.form.area ? `[${state.checkout.form.area}] ` : ''}${state.checkout.form.address || ''}, ${state.checkout.form.city || ''}${state.checkout.form.groundFloorPickup ? ' (Ground Floor Pickup)' : ''}`.trim().replace(/^,\s*/, '');
+        
       const rawOrderData: Record<string, string | number | undefined> = {
         user_name: state.checkout.form.name,
         user_city: state.checkout.form.city,
@@ -327,7 +331,8 @@ const CheckoutModal: React.FC = () => {
         discount: appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0,
         service_fee: getPaymentMethodFee(),
         redeem_amount: isRedeemed ? userRewardValue : 0,
-        shipping_charges: state.shipping,
+        // Include overWeightFee in shipping_charges so the dashboard reflects full shipping cost
+        shipping_charges: state.shipping + state.overWeightFee,
         // Remove over_weight_fee as it doesn't exist in database
         total:
           state.subtotal +
@@ -336,7 +341,7 @@ const CheckoutModal: React.FC = () => {
           getPaymentMethodFee() -
           (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) -
           (isRedeemed ? (userRewardValue || 0) : 0),
-        address: state.checkout.form.address || undefined,
+        address: finalAddress,
         payment_type: paymentTypeCode,
         delivery_type: paymentTypeCode,
         payment_status: 0,
@@ -399,7 +404,7 @@ const CheckoutModal: React.FC = () => {
                 whatsapp_number: state.checkout.form.whatsapp
                   ? onlyDigits(state.checkout.form.whatsapp)
                   : onlyDigits(state.checkout.form.mobile),
-                address: state.checkout.form.address,
+                address: finalAddress,
                 items: JSON.stringify(state.items.map(item => ({
                   product_id: item.id,
                   name: item.name,
