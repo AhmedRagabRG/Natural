@@ -1,0 +1,46 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="circle-gradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background Gradient -->
+  <rect width="1920" height="1080" fill="url(#bg-gradient)"/>
+  
+  <!-- Decorative Circles -->
+  <circle cx="200" cy="200" r="150" fill="url(#circle-gradient)" opacity="0.3"/>
+  <circle cx="1720" cy="300" r="200" fill="url(#circle-gradient)" opacity="0.2"/>
+  <circle cx="300" cy="800" r="100" fill="url(#circle-gradient)" opacity="0.4"/>
+  <circle cx="1600" cy="900" r="120" fill="url(#circle-gradient)" opacity="0.3"/>
+  
+  <!-- Floating Stars -->
+  <g opacity="0.6">
+    <polygon points="400,150 410,180 440,180 418,198 428,228 400,210 372,228 382,198 360,180 390,180" fill="#ffffff" opacity="0.8"/>
+    <polygon points="1500,200 510,230 540,230 518,248 528,278 500,260 472,278 482,248 460,230 490,230" fill="#ffffff" opacity="0.6"/>
+    <polygon points="800,100 810,130 840,130 818,148 828,178 800,160 772,178 782,148 760,130 790,130" fill="#ffffff" opacity="0.7"/>
+    <polygon points="1200,400 1210,430 1240,430 1218,448 1228,478 1200,460 1172,478 1182,448 1160,430 1190,430" fill="#ffffff" opacity="0.5"/>
+    <polygon points="600,950 610,980 640,980 618,998 628,1028 600,1010 572,1028 582,998 560,980 590,980" fill="#ffffff" opacity="0.6"/>
+    <polygon points="1400,800 1410,830 1440,830 1418,848 1428,878 1400,860 1372,878 1382,848 1360,830 1390,830" fill="#ffffff" opacity="0.7"/>
+  </g>
+  
+  <!-- Abstract Shapes -->
+  <g opacity="0.1">
+    <path d="M100 500 Q300 400 500 500 T900 500" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <path d="M1000 600 Q1200 500 1400 600 T1800 600" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <path d="M200 300 Q400 200 600 300 T1000 300" stroke="#ffffff" stroke-width="1" fill="none"/>
+  </g>
+  
+  <!-- Geometric Patterns -->
+  <g opacity="0.05">
+    <rect x="50" y="50" width="100" height="100" fill="#ffffff" transform="rotate(45 100 100)"/>
+    <rect x="1750" y="150" width="80" height="80" fill="#ffffff" transform="rotate(30 1790 190)"/>
+    <rect x="150" y="900" width="60" height="60" fill="#ffffff" transform="rotate(60 180 930)"/>
+    <rect x="1650" y="800" width="70" height="70" fill="#ffffff" transform="rotate(15 1685 835)"/>
+  </g>
+</svg>
