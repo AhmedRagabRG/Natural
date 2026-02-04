@@ -194,8 +194,8 @@ const CheckoutModal: React.FC = () => {
         const formData = {
           name: latestOrder.user_name || '',
           email: latestOrder.email || '',
-          whatsapp: latestOrder.whatsapp_number ? latestOrder.whatsapp_number.replace(`+${state.checkout.form.mobileCountryCode}`, '') : '',
-          whatsappCountryCode: latestOrder.whatsapp_number ? state.checkout.form.mobileCountryCode : '',
+          whatsapp: latestOrder.whatsapp_number ? latestOrder.whatsapp_number.replace(`+${state.checkout.form.mobileCountryCode}`, '') : mobileNumber,
+          whatsappCountryCode: latestOrder.whatsapp_number ? state.checkout.form.mobileCountryCode : state.checkout.form.mobileCountryCode,
           city: latestOrder.user_city || '',
           address: autofillAddress
         };
@@ -213,7 +213,8 @@ const CheckoutModal: React.FC = () => {
 
   // Handle mobile number change with auto-fill
   const handleMobileChange = (value: string) => {
-    updateCheckoutForm({ mobile: value });
+    // Also auto-fill whatsapp with the same mobile number value
+    updateCheckoutForm({ mobile: value, whatsapp: value });
     
     // Trigger auto-fill when user types 8 or more digits
     const normalized = (value || '').replace(/\D/g, '');
@@ -1219,7 +1220,14 @@ const CheckoutModal: React.FC = () => {
                   <label style={{ fontWeight: '500', color: '#333', fontSize: '0.9rem' }}>Area *</label>
                   <select 
                     value={state.checkout.form.area}
-                    onChange={(e) => updateCheckoutForm({ area: e.target.value })}
+                    onChange={(e) => {
+                      const selectedArea = e.target.value;
+                      const updates: any = { area: selectedArea };
+                      if (selectedArea === 'Others') {
+                        updates.address = 'Bur Juman 201 A';
+                      }
+                      updateCheckoutForm(updates);
+                    }}
                     style={{
                       padding: '10px',
                       border: '1px solid #ddd',

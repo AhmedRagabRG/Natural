@@ -518,43 +518,47 @@ const Header: React.FC = () => {
                                       Dubai Only
                                     </div>
                                   )}
-                                  {product.originalPrice &&
-                                  product.originalPrice > product.currentPrice ? (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "flex-end",
-                                      }}
-                                    >
-                                      <span
-                                        className="search-result-price original-price"
-                                        style={{
-                                          textDecoration: "line-through",
-                                          color: "#999",
-                                          fontSize: "0.85em",
-                                        }}
-                                      >
-                                        <i className="aed"> </i>
-                                        <span>{formatPrice(product.originalPrice)}</span>
-                                      </span>
-                                      <span
-                                        className="search-result-price special-price"
-                                        style={{
-                                          color: "#28a745",
-                                          fontSize: "1em",
-                                          fontWeight: "bold",
-                                        }}
-                                      >
-                                        {/* Invisible AED icon to align numbers with the line above */}
-                                        <i className="aed" aria-hidden="true" style={{ visibility: "hidden" }}> </i>
-                                        <span>{formatPrice(product.currentPrice)}</span>
-                                      </span>
-                                    </div>
-                                  ) : (
-                                    <span className="search-result-price current-price">
-                                      <span>{formatPrice(product.currentPrice)}</span>
-                                    </span>
+                                  {product.is_parent !== 1 && (
+                                    <>
+                                      {product.originalPrice &&
+                                      product.originalPrice > product.currentPrice ? (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "flex-end",
+                                          }}
+                                        >
+                                          <span
+                                            className="search-result-price original-price"
+                                            style={{
+                                              textDecoration: "line-through",
+                                              color: "#999",
+                                              fontSize: "0.85em",
+                                            }}
+                                          >
+                                            <i className="aed"> </i>
+                                            <span>{formatPrice(product.originalPrice)}</span>
+                                          </span>
+                                          <span
+                                            className="search-result-price special-price"
+                                            style={{
+                                              color: "#28a745",
+                                              fontSize: "1em",
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            {/* Invisible AED icon to align numbers with the line above */}
+                                            <i className="aed" aria-hidden="true" style={{ visibility: "hidden" }}> </i>
+                                            <span>{formatPrice(product.currentPrice)}</span>
+                                          </span>
+                                        </div>
+                                      ) : (
+                                        <span className="search-result-price current-price">
+                                          <span>{formatPrice(product.currentPrice)}</span>
+                                        </span>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                                 <div

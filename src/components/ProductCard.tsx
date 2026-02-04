@@ -245,14 +245,6 @@ export default function ProductCard({
         {/* Weight/Size Options for Parent Products */}
         {is_parent === 1 && childProducts.length > 0 && (
           <div style={{ marginTop: '12px', marginBottom: '8px', paddingLeft: '8px' }}>
-            <p style={{ 
-              fontSize: '10px', 
-              color: '#888', 
-              marginBottom: '6px', 
-              fontWeight: 500,
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}>Select Size:</p>
             <div style={{
               display: 'flex',
               gap: '8px',
