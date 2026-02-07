@@ -23,6 +23,7 @@ interface Product {
   parent_product_id?: number | null;
   is_parent?: number;
   dubai_only?: number;
+  unit?: string;
 }
 
 interface Offer {
@@ -47,6 +48,7 @@ const Header: React.FC = () => {
   const [productsLoading, setProductsLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
   const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   // Use product updates hook for real-time updates
@@ -107,7 +109,15 @@ const Header: React.FC = () => {
       const cacheKey = CACHE_KEYS.PRODUCTS_ALL;
       const cachedProducts = cache.get<Product[]>(cacheKey);
       
-      if (cachedProducts) {
+      // Validate cache has required fields (is_parent, parent_product_id) and includes child products
+      const hasParents = cachedProducts && cachedProducts.some(p => p.is_parent === 1);
+      const hasChildren = cachedProducts && cachedProducts.some(p => !!p.parent_product_id);
+      
+      const isCacheValid = cachedProducts && cachedProducts.length > 0 && 
+                           'is_parent' in cachedProducts[0] &&
+                           (!hasParents || hasChildren);
+      
+      if (isCacheValid && cachedProducts) {
         // If cached products are missing image URLs, hydrate them now
         const needsImageHydration = cachedProducts.some((p) => !p.imageUrl || p.imageUrl === "");
         if (needsImageHydration) {
@@ -126,7 +136,7 @@ const Header: React.FC = () => {
         return;
       }
 
-      const response = await fetch("/api/products");
+      const response = await fetch("/api/products?include_children=true");
       const data = await response.json();
 
       if (data.success && data.data && data.data.products) {
@@ -159,6 +169,7 @@ const Header: React.FC = () => {
               images: product.images,
               imageUrl: product.image_url || '',
               weight: product.product_unit ? parseFloat(product.product_unit) : 0,
+              unit: product.product_unit,
               product_url: product.product_url,
               parent_product_id: product.parent_product_id,
               is_parent: product.is_parent,
@@ -199,6 +210,16 @@ const Header: React.FC = () => {
       .map(word => word.trim());
 
     const scoredProducts = allProducts.map(product => {
+      // Exclude child products from search results, they will be accessed via their parent
+      if (product.parent_product_id) {
+        return {
+          product,
+          matchCount: 0,
+          totalScore: 0,
+          hasAnyMatch: false
+        };
+      }
+
       const productName = product.name.toLowerCase();
       let matchCount = 0;
       let totalScore = 0;
@@ -442,13 +463,22 @@ const Header: React.FC = () => {
                   >
                     {searchResults.length > 0 ? (
                       <div>
-                        {searchResults.map((product) => (
+                        {searchResults.map((product) => {
+                          const children = product.is_parent === 1 
+                            ? allProducts.filter(p => p.parent_product_id === parseInt(product.id)).sort((a, b) => a.currentPrice - b.currentPrice)
+                            : [];
+                          
+                          const selectedChildId = selectedVariants[product.id];
+                          const activeChild = children.length > 0 ? (children.find(c => c.id === selectedChildId) || children[0]) : null;
+                          const displayProduct = activeChild || product;
+
+                          return (
                           <div key={product.id} className="search-result">
                             <div className="search-result-info" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                               {/* Product Image */}
                               <div className="search-result-image" style={{ flexShrink: 0 }}>
                                 <Image
-                                  src={product.imageUrl || '/assets/du.png'}
+                                  src={displayProduct.imageUrl || '/assets/du.png'}
                                   alt=""
                                   width={50}
                                   height={50}
@@ -473,6 +503,31 @@ const Header: React.FC = () => {
                                 >
                                   {product.name}
                                 </Link>
+
+                                {children.length > 0 && (
+                                  <div onClick={e => e.stopPropagation()} style={{ marginTop: '4px' }}>
+                                    <select
+                                      style={{
+                                        width: '100%',
+                                        padding: '2px 4px',
+                                        fontSize: '11px',
+                                        border: '1px solid #ddd',
+                                        borderRadius: '4px',
+                                        backgroundColor: '#f9f9f9',
+                                        cursor: 'pointer'
+                                      }}
+                                      value={activeChild?.id}
+                                      onChange={(e) => setSelectedVariants({...selectedVariants, [product.id]: e.target.value})}
+                                    >
+                                      {children.map(child => (
+                                        <option key={child.id} value={child.id}>
+                                          {child.name}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+
                                 <div
                                   className="search-result-points"
                                   style={{
@@ -490,11 +545,11 @@ const Header: React.FC = () => {
                                   ></i>
                                   <span>
                                     Earn {calculateRewardPoints(
-                                      typeof product.special_price === "number" &&
-                                        product.special_price > 0 &&
-                                        product.special_price !== product.currentPrice
-                                        ? product.special_price
-                                        : product.currentPrice
+                                      typeof displayProduct.special_price === "number" &&
+                                        displayProduct.special_price > 0 &&
+                                        displayProduct.special_price !== displayProduct.currentPrice
+                                        ? displayProduct.special_price
+                                        : displayProduct.currentPrice
                                     )} points
                                   </span>
                                 </div>
@@ -518,10 +573,9 @@ const Header: React.FC = () => {
                                       Dubai Only
                                     </div>
                                   )}
-                                  {product.is_parent !== 1 && (
                                     <>
-                                      {product.originalPrice &&
-                                      product.originalPrice > product.currentPrice ? (
+                                      {displayProduct.originalPrice &&
+                                      displayProduct.originalPrice > displayProduct.currentPrice ? (
                                         <div
                                           style={{
                                             display: "flex",
@@ -538,7 +592,7 @@ const Header: React.FC = () => {
                                             }}
                                           >
                                             <i className="aed"> </i>
-                                            <span>{formatPrice(product.originalPrice)}</span>
+                                            <span>{formatPrice(displayProduct.originalPrice)}</span>
                                           </span>
                                           <span
                                             className="search-result-price special-price"
@@ -550,41 +604,26 @@ const Header: React.FC = () => {
                                           >
                                             {/* Invisible AED icon to align numbers with the line above */}
                                             <i className="aed" aria-hidden="true" style={{ visibility: "hidden" }}> </i>
-                                            <span>{formatPrice(product.currentPrice)}</span>
+                                            <span>{formatPrice(displayProduct.currentPrice)}</span>
                                           </span>
                                         </div>
                                       ) : (
                                         <span className="search-result-price current-price">
-                                          <span>{formatPrice(product.currentPrice)}</span>
+                                          <span>{formatPrice(displayProduct.currentPrice)}</span>
                                         </span>
                                       )}
                                     </>
-                                  )}
                                 </div>
                                 <div
                                   className="cart-controls"
                                   style={cartUIStyle.cartControls}
                                 >
-                                  {product.is_parent === 1 ? (
-                                    <Link
-                                      href={`/product/${product.product_url || product.id}`}
-                                      style={{ textDecoration: 'none' }}
-                                      onClick={() => setShowDropdown(false)}
-                                    >
-                                      <button
-                                        className="search-result-add"
-                                        onClick={(e) => e.stopPropagation()}
-                                      >
-                                        <i className="fa-solid fa-eye"></i>
-                                        View
-                                      </button>
-                                    </Link>
-                                  ) : !isInCart(product.id) ? (
+                                  {!isInCart(displayProduct.id) ? (
                                     <button
                                       className="search-result-add"
                                       onClick={(e) => {
                                         e.preventDefault();
-                                        handleAddToCart(product);
+                                        handleAddToCart(displayProduct);
                                       }}
                                     >
                                       <i className="fa-solid fa-cart-plus"></i>
@@ -603,7 +642,7 @@ const Header: React.FC = () => {
                                         className="quantity-btn"
                                         onClick={(e) => {
                                           e.preventDefault();
-                                          decreaseQuantity(product.id);
+                                          decreaseQuantity(displayProduct.id);
                                         }}
                                         style={cartUIStyle.qtyBtn}
                                         title="Decrease Quantity"
@@ -614,13 +653,13 @@ const Header: React.FC = () => {
                                         className="quantity"
                                         style={cartUIStyle.qtyText}
                                       >
-                                        {getQuantity(product.id)}
+                                        {getQuantity(displayProduct.id)}
                                       </span>
                                       <button
                                         className="quantity-btn"
                                         onClick={(e) => {
                                           e.preventDefault();
-                                          increaseQuantity(product.id);
+                                          increaseQuantity(displayProduct.id);
                                         }}
                                         style={cartUIStyle.qtyBtn}
                                         title="Increase Quantity"
@@ -633,7 +672,8 @@ const Header: React.FC = () => {
                               </div>
                             </div>
                           </div>
-                        ))}
+                        );
+                        })}
                       </div>
                     ) : (
                       searchQuery && (
@@ -805,12 +845,20 @@ const Header: React.FC = () => {
                 }}
               >
                 {searchResults.map((product) => {
+                  const children = product.is_parent === 1 
+                    ? allProducts.filter(p => p.parent_product_id === parseInt(product.id)).sort((a, b) => a.currentPrice - b.currentPrice)
+                    : [];
+                  
+                  const selectedChildId = selectedVariants[product.id];
+                  const activeChild = children.length > 0 ? (children.find(c => c.id === selectedChildId) || children[0]) : null;
+                  const displayProduct = activeChild || product;
+
                   const discountPercentage =
-                    product.originalPrice &&
-                      product.originalPrice !== product.currentPrice
+                    displayProduct.originalPrice &&
+                      displayProduct.originalPrice !== displayProduct.currentPrice
                       ? Math.round(
-                        ((product.originalPrice - product.currentPrice) /
-                          product.originalPrice) *
+                        ((displayProduct.originalPrice - displayProduct.currentPrice) /
+                          displayProduct.originalPrice) *
                         100
                       )
                       : 0;
@@ -832,7 +880,7 @@ const Header: React.FC = () => {
                       {/* Product Image (match dropdown style) */}
                       <div className="search-result-image" style={{ flexShrink: 0 }}>
                         <Image
-                          src={product.imageUrl || '/assets/du.png'}
+                          src={displayProduct.imageUrl || '/assets/du.png'}
                           alt=""
                           width={50}
                           height={50}
@@ -865,6 +913,31 @@ const Header: React.FC = () => {
                             {product.name}
                           </div>
                         </Link>
+                        
+                        {children.length > 0 && (
+                          <div onClick={e => e.stopPropagation()} style={{ marginTop: '5px' }}>
+                            <select
+                              style={{
+                                width: '100%',
+                                maxWidth: '200px',
+                                padding: '4px 8px',
+                                fontSize: '12px',
+                                border: '1px solid #ddd',
+                                borderRadius: '4px',
+                                backgroundColor: '#f9f9f9',
+                                cursor: 'pointer'
+                              }}
+                              value={activeChild?.id}
+                              onChange={(e) => setSelectedVariants({...selectedVariants, [product.id]: e.target.value})}
+                            >
+                              {children.map(child => (
+                                <option key={child.id} value={child.id}>
+                                  {child.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
 
                         {/* Points Display (same as dropdown) */}
                         <div
@@ -883,11 +956,11 @@ const Header: React.FC = () => {
                           ></i>
                           <span>
                             Earn {calculateRewardPoints(
-                              typeof product.special_price === "number" &&
-                                product.special_price > 0 &&
-                                product.special_price !== product.currentPrice
-                                ? product.special_price
-                                : product.currentPrice
+                              typeof displayProduct.special_price === "number" &&
+                                displayProduct.special_price > 0 &&
+                                displayProduct.special_price !== displayProduct.currentPrice
+                                ? displayProduct.special_price
+                                : displayProduct.currentPrice
                             )} points
                           </span>
                         </div>
@@ -920,8 +993,8 @@ const Header: React.FC = () => {
                               Dubai Only
                             </div>
                           )}
-                          {product.originalPrice &&
-                          product.originalPrice > product.currentPrice ? (
+                          {displayProduct.originalPrice &&
+                          displayProduct.originalPrice > displayProduct.currentPrice ? (
                             <div
                               style={{
                                 display: "flex",
@@ -938,7 +1011,7 @@ const Header: React.FC = () => {
                                 }}
                               >
                                 <i className="aed"> </i>
-                                <span>{formatPrice(product.originalPrice)}</span>
+                                <span>{formatPrice(displayProduct.originalPrice)}</span>
                               </span>
                               <span
                                 className="search-result-price special-price"
@@ -950,12 +1023,12 @@ const Header: React.FC = () => {
                               >
                                 {/* Invisible AED icon to align numbers with the line above */}
                                 <i className="aed" aria-hidden="true" style={{ visibility: "hidden" }}> </i>
-                                <span>{formatPrice(product.currentPrice)}</span>
+                                <span>{formatPrice(displayProduct.currentPrice)}</span>
                               </span>
                             </div>
                           ) : (
                             <span className="search-result-price current-price">
-                              <span>{formatPrice(product.currentPrice)}</span>
+                              <span>{formatPrice(displayProduct.currentPrice)}</span>
                             </span>
                           )}
                         </div>
@@ -964,26 +1037,12 @@ const Header: React.FC = () => {
                                     className="cart-controls"
                                     style={cartUIStyle.cartControls}
                                   >
-                                    {product.is_parent === 1 ? (
-                                      <Link
-                                        href={`/product/${product.product_url || product.id}`}
-                                        style={{ textDecoration: 'none' }}
-                                        onClick={() => setShowSearchModal(false)}
-                                      >
-                                        <button
-                                          className="search-result-add"
-                                          onClick={(e) => e.stopPropagation()}
-                                        >
-                                          <i className="fa-solid fa-eye"></i>
-                                          View
-                                        </button>
-                                      </Link>
-                                    ) : !isInCart(product.id) ? (
+                                    {!isInCart(displayProduct.id) ? (
                                       <button
                                         className="search-result-add"
                                         onClick={(e) => {
                                           e.preventDefault();
-                                          handleAddToCart(product);
+                                          handleAddToCart(displayProduct);
                                         }}
                                       >
                                         <i className="fa-solid fa-cart-plus"></i>
@@ -1002,7 +1061,7 @@ const Header: React.FC = () => {
                                           className="quantity-btn"
                                           onClick={(e) => {
                                             e.preventDefault();
-                                            decreaseQuantity(product.id);
+                                            decreaseQuantity(displayProduct.id);
                                           }}
                                           style={cartUIStyle.qtyBtn}
                                           title="Decrease Quantity"
@@ -1013,13 +1072,13 @@ const Header: React.FC = () => {
                                           className="quantity"
                                           style={cartUIStyle.qtyText}
                                         >
-                                          {getQuantity(product.id)}
+                                          {getQuantity(displayProduct.id)}
                                         </span>
                                         <button
                                           className="quantity-btn"
                                           onClick={(e) => {
                                             e.preventDefault();
-                                            increaseQuantity(product.id);
+                                            increaseQuantity(displayProduct.id);
                                           }}
                                           style={cartUIStyle.qtyBtn}
                                           title="Increase Quantity"

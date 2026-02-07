@@ -18,11 +18,12 @@ export async function GET(request: NextRequest) {
     const min_price = searchParams.get('min_price') ? parseFloat(searchParams.get('min_price')!) : undefined;
     const max_price = searchParams.get('max_price') ? parseFloat(searchParams.get('max_price')!) : undefined;
     const lang = searchParams.get('lang') || 'en';
+    const include_children = searchParams.get('include_children') === 'true';
 
     // Create cache key based on all parameters
     const cacheKey = `products:${JSON.stringify({
       page, limit, sort, order, category_id, subcategory_id, 
-      featured, status, search, min_price, max_price, lang
+      featured, status, search, min_price, max_price, lang, include_children
     })}`;
 
     // Check cache first
@@ -68,7 +69,8 @@ export async function GET(request: NextRequest) {
       search,
       min_price,
       max_price,
-      lang
+      lang,
+      include_children
     });
 
     // Cache the result for 3 minutes (products change frequently)

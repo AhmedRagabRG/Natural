@@ -674,6 +674,7 @@ export class ProductService {
     min_price?: number;
     max_price?: number;
     lang?: string;
+    include_children?: boolean;
   }) {
     return executeWithRetry(async () => {
       const {
@@ -688,7 +689,8 @@ export class ProductService {
         search,
         min_price,
         max_price,
-        lang = 'en'
+        lang = 'en',
+        include_children = false
       } = params;
 
       // Only apply pagination if both page and limit are provided
@@ -716,7 +718,9 @@ export class ProductService {
       }
 
       // Exclude child products - only show parent products or standalone products
-      whereConditions.push('(p.parent_product_id IS NULL OR p.parent_product_id = 0)');
+      if (!include_children) {
+        whereConditions.push('(p.parent_product_id IS NULL OR p.parent_product_id = 0)');
+      }
 
       // Category filter
       if (category_id) {
