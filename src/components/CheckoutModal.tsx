@@ -1243,8 +1243,6 @@ const CheckoutModal: React.FC = () => {
                   >
                     <option value="">Select an area</option>
                     <option value="Nahda">Nahda</option>
-                    <option value="Qusais">Qusais</option>
-                    <option value="Deira">Deira</option>
                     <option value="Karama">Karama</option>
                     <option value="Bur Dubai">Bur Dubai</option>
                     <option value="Mankhool">Mankhool</option>

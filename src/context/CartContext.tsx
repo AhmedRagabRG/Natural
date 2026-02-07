@@ -119,7 +119,8 @@ const calculateTotals = (items: CartItem[], discount: number = 0, groundFloorPic
   // Apply 50% discount on shipping and overweight fee if ground floor pickup is selected
   if (groundFloorPickup) {
     shipping = shipping * 0.5;
-    overWeightFee = overWeightFee * 0.5;
+    // Over weight fee excluded from discount per requirement
+    // overWeightFee = overWeightFee * 0.5;
   }
   
   // Calculate reward points (3 points per AED)
