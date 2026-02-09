@@ -53,22 +53,48 @@ const CheckoutModal: React.FC = () => {
   const [showShippingInfo, setShowShippingInfo] = useState(false);
   const [showReturnInfo, setShowReturnInfo] = useState(false);
   const [dubaiError, setDubaiError] = useState(false);
+  
+  // State for restricted items popup
+  const [restrictionPopup, setRestrictionPopup] = useState<{show: boolean, items: string[]}>({
+    show: false,
+    items: []
+  });
+  const [pendingCity, setPendingCity] = useState<string>('');
 
   // Check if any item in cart is Dubai only
   const hasDubaiOnlyItems = React.useMemo(() => {
     return state.items.some(item => item.dubai_only === 1);
   }, [state.items]);
 
+  // Handle restricted items confirmation
+  const handleConfirmRestriction = () => {
+    // Remove restricted items from cart
+    const restrictedItems = state.items.filter(item => item.dubai_only === 1);
+    restrictedItems.forEach(item => {
+      removeItem(item.id);
+    });
+
+    // Update city and close popup
+    updateCheckoutForm({ city: pendingCity });
+    setRestrictionPopup({ show: false, items: [] });
+    setPendingCity('');
+    setDubaiError(false);
+  };
+
   // Handle city change with validation
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCity = e.target.value;
     
-    if (hasDubaiOnlyItems && selectedCity && selectedCity !== 'Dubai') {
-      setDubaiError(true);
-      // Determine invalid items names for better message
-      // const invalidItems = state.items.filter(item => item.dubai_only === 1).map(item => item.name).join(', ');
-      setTimeout(() => setDubaiError(false), 5000); // Hide error after 5 seconds
-      return; // Prevent change
+    // Check for restricted items
+    const restrictedItems = state.items.filter(item => item.dubai_only === 1);
+    
+    if (restrictedItems.length > 0 && selectedCity && selectedCity !== 'Dubai') {
+      setPendingCity(selectedCity);
+      setRestrictionPopup({
+        show: true,
+        items: restrictedItems.map(item => item.name)
+      });
+      return; 
     }
     
     setDubaiError(false);
@@ -2001,6 +2027,105 @@ const CheckoutModal: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Restricted Items Popup */}
+      {restrictionPopup.show && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1100, // Higher than checkout modal
+          padding: '20px'
+        }}>
+          <div 
+             onClick={(e) => e.stopPropagation()}
+             style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              padding: '24px',
+              maxWidth: '400px',
+              width: '100%',
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              textAlign: 'center'
+            }}
+          >
+            <div style={{ 
+              width: '50px', 
+              height: '50px', 
+              borderRadius: '50%', 
+              backgroundColor: '#fee2e2', 
+              color: '#ef4444',
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              fontSize: '24px',
+              margin: '0 auto 16px'
+            }}>
+              <i className="fa-solid fa-ban"></i>
+            </div>
+            
+            <h3 style={{ 
+              fontSize: '18px', 
+              fontWeight: '700', 
+              color: '#1f2937',
+              marginBottom: '12px'
+            }}>
+              Delivery not available
+            </h3>
+            
+            <p style={{ 
+              color: '#4b5563', 
+              fontSize: '14px', 
+              lineHeight: '1.5',
+              marginBottom: '16px'
+            }}>
+              The following items will be removed from your cart because at the moment we are not delivering them in your area:
+            </p>
+            
+            <div style={{
+              backgroundColor: '#f3f4f6',
+              borderRadius: '8px',
+              padding: '12px',
+              marginBottom: '20px',
+              textAlign: 'left',
+              maxHeight: '150px',
+              overflowY: 'auto'
+            }}>
+              <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px', color: '#374151' }}>
+                {restrictionPopup.items.map((item, index) => (
+                  <li key={index} style={{ marginBottom: '4px' }}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            
+            <button
+              onClick={handleConfirmRestriction}
+              style={{
+                width: '100%',
+                backgroundColor: '#2563eb',
+                color: 'white',
+                padding: '10px 16px',
+                borderRadius: '6px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '14px',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+            >
+              OK, Remove Items
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

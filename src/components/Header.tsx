@@ -152,11 +152,15 @@ const Header: React.FC = () => {
             image_url?: string;
             parent_product_id?: number | null;
             is_parent?: number;
+            unit?: string; // Add unit just in case
           }) => {
             const hasSpecial =
               typeof product.special_price === "number" &&
               product.special_price > 0 &&
               product.special_price !== product.price;
+
+            // Resolve unit from either 'unit' or 'product_unit'
+            const resolvedUnit = product.unit || product.product_unit;
 
             return {
               id: product.product_id.toString(),
@@ -168,8 +172,8 @@ const Header: React.FC = () => {
               special_price: product.special_price,
               images: product.images,
               imageUrl: product.image_url || '',
-              weight: product.product_unit ? parseFloat(product.product_unit) : 0,
-              unit: product.product_unit,
+              weight: resolvedUnit ? parseFloat(resolvedUnit) : 0,
+              unit: resolvedUnit,
               product_url: product.product_url,
               parent_product_id: product.parent_product_id,
               is_parent: product.is_parent,
@@ -471,6 +475,9 @@ const Header: React.FC = () => {
                           const selectedChildId = selectedVariants[product.id];
                           const activeChild = children.length > 0 ? (children.find(c => c.id === selectedChildId) || children[0]) : null;
                           const displayProduct = activeChild || product;
+                          
+                          // Don't show parent products that have no children selected (shouldn't happen due to default selection, but safety check)
+                          const isParent = displayProduct.is_parent === 1;
 
                           return (
                           <div key={product.id} className="search-result">
@@ -573,6 +580,7 @@ const Header: React.FC = () => {
                                       Dubai Only
                                     </div>
                                   )}
+                                    {!isParent && (
                                     <>
                                       {displayProduct.originalPrice &&
                                       displayProduct.originalPrice > displayProduct.currentPrice ? (
@@ -613,12 +621,17 @@ const Header: React.FC = () => {
                                         </span>
                                       )}
                                     </>
+                                    )}
                                 </div>
                                 <div
                                   className="cart-controls"
                                   style={cartUIStyle.cartControls}
                                 >
-                                  {!isInCart(displayProduct.id) ? (
+                                  {isParent ? (
+                                    <span style={{ fontSize: '10px', color: '#999', fontStyle: 'italic' }}>
+                                      Select option
+                                    </span>
+                                  ) : !isInCart(displayProduct.id) ? (
                                     <button
                                       className="search-result-add"
                                       onClick={(e) => {
@@ -852,6 +865,9 @@ const Header: React.FC = () => {
                   const selectedChildId = selectedVariants[product.id];
                   const activeChild = children.length > 0 ? (children.find(c => c.id === selectedChildId) || children[0]) : null;
                   const displayProduct = activeChild || product;
+                  
+                  // Don't show options for parent products that have no children selected
+                  const isParent = displayProduct.is_parent === 1;
 
                   const discountPercentage =
                     displayProduct.originalPrice &&
@@ -929,10 +945,11 @@ const Header: React.FC = () => {
                               }}
                               value={activeChild?.id}
                               onChange={(e) => setSelectedVariants({...selectedVariants, [product.id]: e.target.value})}
+                              onClick={(e) => e.stopPropagation()} 
                             >
                               {children.map(child => (
                                 <option key={child.id} value={child.id}>
-                                  {child.name}
+                                  {child.unit || child.name}
                                 </option>
                               ))}
                             </select>
@@ -993,6 +1010,8 @@ const Header: React.FC = () => {
                               Dubai Only
                             </div>
                           )}
+                          {!isParent && (
+                            <>
                           {displayProduct.originalPrice &&
                           displayProduct.originalPrice > displayProduct.currentPrice ? (
                             <div
@@ -1031,13 +1050,19 @@ const Header: React.FC = () => {
                               <span>{formatPrice(displayProduct.currentPrice)}</span>
                             </span>
                           )}
+                          </>
+                          )}
                         </div>
 
                         <div
                                     className="cart-controls"
                                     style={cartUIStyle.cartControls}
                                   >
-                                    {!isInCart(displayProduct.id) ? (
+                                    {isParent ? (
+                                      <span style={{ fontSize: '10px', color: '#999', fontStyle: 'italic' }}>
+                                        Select option
+                                      </span>
+                                    ) : !isInCart(displayProduct.id) ? (
                                       <button
                                         className="search-result-add"
                                         onClick={(e) => {
