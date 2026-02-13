@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useCart } from "../../../context/CartContext";
 import { formatPrice, calculateRewardPoints } from "../../../utils/price";
@@ -82,6 +83,8 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
   const [childProducts, setChildProducts] = useState<Product[]>([]);
   const [selectedVariation, setSelectedVariation] = useState<Product | null>(null);
   const { addItem, removeItem, updateQuantity, decreaseQuantity, increaseQuantity, state } = useCart();
+  const searchParams = useSearchParams();
+  const unitParam = searchParams.get('unit');
 
   // Function to fetch child products
   const fetchChildProducts = async (parentId: number) => {
@@ -91,9 +94,17 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
       
       if (data.success && data.children) {
         setChildProducts(data.children);
-        // Set first child as selected variation by default
         if (data.children.length > 0) {
-          setSelectedVariation(data.children[0]);
+          // Auto-select variant based on ?unit= URL param if present
+          const unitFromUrl = new URLSearchParams(window.location.search).get('unit');
+          if (unitFromUrl) {
+            const matched = data.children.find((c: Product) => 
+              c.unit?.toLowerCase().replace(/\s+/g, '') === unitFromUrl.toLowerCase().replace(/\s+/g, '')
+            );
+            setSelectedVariation(matched || data.children[0]);
+          } else {
+            setSelectedVariation(data.children[0]);
+          }
         }
       }
     } catch (error) {

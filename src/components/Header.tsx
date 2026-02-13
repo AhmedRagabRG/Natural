@@ -528,7 +528,7 @@ const Header: React.FC = () => {
                                     >
                                       {children.map(child => (
                                         <option key={child.id} value={child.id}>
-                                          {child.name}
+                                          {child.unit || child.name}
                                         </option>
                                       ))}
                                     </select>
