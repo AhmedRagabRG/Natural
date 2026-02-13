@@ -349,6 +349,12 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
 
   const handleVariationSelect = (variation: Product) => {
     setSelectedVariation(variation);
+    // Update URL with selected unit param
+    if (variation.unit) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('unit', variation.unit.toLowerCase().replace(/\s+/g, ''));
+      window.history.replaceState({}, '', url.toString());
+    }
   };
 
   return (
