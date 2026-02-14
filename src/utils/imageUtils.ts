@@ -53,6 +53,54 @@ export const getFirstImageUrl = async (images?: string | number): Promise<string
 };
 
 /**
+ * Get ALL image URLs from a comma-separated list of image IDs
+ * @param images - String or number containing comma-separated image IDs
+ * @returns Promise<string[]> - Array of image URLs
+ */
+export const getAllImageUrls = async (images?: string | number): Promise<string[]> => {
+  if (!images) return ["/assets/du.png"];
+
+  const imagesStr = typeof images === 'number' ? images.toString() : images;
+  const imageIds = imagesStr.split(',').map(id => id.trim()).filter(Boolean);
+
+  if (imageIds.length === 0) return ["/assets/du.png"];
+
+  const urls = await Promise.all(
+    imageIds.map(async (imageId) => {
+      const cacheKey = CACHE_KEYS.IMAGE_URL(imageId);
+      const cachedUrl = cache.get<string>(cacheKey);
+      if (cachedUrl) return cachedUrl;
+
+      try {
+        const response = await fetch(`/api/files/${imageId}`);
+        if (response.ok) {
+          const fileData = await response.json();
+          let imageUrl = "/assets/du.png";
+
+          if (fileData.data?.file_path && fileData.data?.file_name) {
+            imageUrl = `${fileData.data.file_path}${fileData.data.file_name}`;
+          } else if (fileData.file_path && fileData.file_name) {
+            imageUrl = `${fileData.file_path}${fileData.file_name}`;
+          }
+
+          cache.set(cacheKey, imageUrl, 10 * 60 * 1000);
+          return imageUrl;
+        }
+      } catch (error) {
+        console.error('Error fetching image:', error);
+      }
+
+      cache.set(cacheKey, "/assets/du.png", 5 * 60 * 1000);
+      return "/assets/du.png";
+    })
+  );
+
+  // Filter out duplicates and fallback-only results
+  const unique = [...new Set(urls)];
+  return unique.length > 0 ? unique : ["/assets/du.png"];
+};
+
+/**
  * Get the second image URL from a comma-separated list of image IDs
  * Falls back to first image if second is not available
  * @param images - String or number containing comma-separated image IDs

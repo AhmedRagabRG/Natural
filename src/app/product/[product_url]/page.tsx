@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useCart } from "../../../context/CartContext";
 import { formatPrice, calculateRewardPoints } from "../../../utils/price";
-import { getFirstImageUrl, getSecondImageUrl } from "../../../utils/imageUtils";
+import { getFirstImageUrl, getSecondImageUrl, getAllImageUrls } from "../../../utils/imageUtils";
 import { useProductUpdates } from "../../../hooks/useProductUpdates";
 import { gtmViewItem } from "../../../utils/gtm";
 import ProductCard from "../../../components/ProductCard";
@@ -75,6 +75,8 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
   const { product_url } = React.use(params);
   const [product, setProduct] = useState<Product | null>(null);
   const [productImageUrl, setProductImageUrl] = useState<string>("/assets/du.png");
+  const [allImageUrls, setAllImageUrls] = useState<string[]>([]);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [recentProducts, setRecentProducts] = useState<RecentProduct[]>([]);
   const [recentProductsLoading, setRecentProductsLoading] = useState(true);
@@ -134,9 +136,11 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
 
         if (foundProduct) {
           setProduct(foundProduct);
-          // Load product image (use second image for main product)
-          const imageUrl = await getSecondImageUrl(foundProduct.images);
-          setProductImageUrl(imageUrl);
+          // Load all product images
+          const imageUrls = await getAllImageUrls(foundProduct.images);
+          setAllImageUrls(imageUrls);
+          setActiveImageIndex(0);
+          setProductImageUrl(imageUrls[0] || '/assets/du.png');
 
           // If this is a parent product, fetch its children
           if (foundProduct.is_parent === 1) {
@@ -360,24 +364,81 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
   return (
     <div className="product-container">
       <div className="product-layout">
-        <div className="product-image">
-          {hasDiscount && (
-            <span className="discount-badge">
-              {Math.round((1 - currentPrice / originalPrice!) * 100)}% OFF
-            </span>
+        <div className="product-image-section">
+          {/* Thumbnails sidebar */}
+          {allImageUrls.length > 1 && (
+            <div className="product-thumbnails">
+              {allImageUrls.map((url, index) => (
+                <button
+                  key={index}
+                  className={`thumbnail-btn ${activeImageIndex === index ? 'active' : ''}`}
+                  onClick={() => { setActiveImageIndex(index); setProductImageUrl(url); }}
+                >
+                  <Image
+                    src={url}
+                    alt={`${product.name} - ${index + 1}`}
+                    width={60}
+                    height={60}
+                    style={{ objectFit: 'cover', borderRadius: '6px', width: '100%', height: '100%' }}
+                  />
+                </button>
+              ))}
+            </div>
           )}
-          <Image
-            src={productImageUrl}
-            alt={product.name}
-            width={400}
-            height={400}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: "8px"
-            }}
-          />
+
+          {/* Main image */}
+          <div className="product-image">
+            {hasDiscount && (
+              <span className="discount-badge">
+                {Math.round((1 - currentPrice / originalPrice!) * 100)}% OFF
+              </span>
+            )}
+            <Image
+              src={productImageUrl}
+              alt={product.name}
+              width={400}
+              height={400}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "8px"
+              }}
+            />
+
+            {/* Navigation arrows */}
+            {allImageUrls.length > 1 && (
+              <>
+                <button
+                  className="image-nav-btn image-nav-prev"
+                  onClick={() => {
+                    const prev = activeImageIndex === 0 ? allImageUrls.length - 1 : activeImageIndex - 1;
+                    setActiveImageIndex(prev);
+                    setProductImageUrl(allImageUrls[prev]);
+                  }}
+                >
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+                <button
+                  className="image-nav-btn image-nav-next"
+                  onClick={() => {
+                    const next = activeImageIndex === allImageUrls.length - 1 ? 0 : activeImageIndex + 1;
+                    setActiveImageIndex(next);
+                    setProductImageUrl(allImageUrls[next]);
+                  }}
+                >
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              </>
+            )}
+
+            {/* Image counter */}
+            {allImageUrls.length > 1 && (
+              <div className="image-counter">
+                {activeImageIndex + 1} / {allImageUrls.length}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="product-info">
