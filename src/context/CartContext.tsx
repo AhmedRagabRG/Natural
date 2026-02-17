@@ -103,7 +103,11 @@ const calculateTotals = (items: CartItem[], discount: number = 0, groundFloorPic
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
     // Total weight in kg (sum of item.weight * quantity), default 0 if weight not provided
-    const totalWeight = items.reduce((sum, item) => sum + ((item.weight || 0) * item.quantity), 0);
+    // Sanitize: cap individual item weight at 25kg to prevent bugs from display unit parsing
+    const totalWeight = items.reduce((sum, item) => {
+      const w = item.weight && item.weight > 25 ? item.weight / 1000 : (item.weight || 0);
+      return sum + (w * item.quantity);
+    }, 0);
     
     // Calculate shipping based on subtotal
     let shipping = 0;
@@ -332,8 +336,14 @@ const loadFromLocalStorage = (): Partial<CartState> => {
       const saved = localStorage.getItem(CART_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
+        // Sanitize item weights: any weight > 25 kg per unit is clearly a bug
+        // (was parsed from display unit like "500g" → 500 instead of 0.5 kg)
+        const sanitizedItems = (parsed.items || []).map((item: CartItem) => ({
+          ...item,
+          weight: item.weight && item.weight > 25 ? item.weight / 1000 : item.weight
+        }));
         return {
-          items: parsed.items || [],
+          items: sanitizedItems,
           discount: parsed.discount || 0,
           rewardPoints: parsed.rewardPoints || 0,
           rewardValue: parsed.rewardValue || 0
