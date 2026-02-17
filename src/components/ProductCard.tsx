@@ -149,6 +149,7 @@ export default function ProductCard({
         price: currentPrice,
         originalPrice,
         image: imageUrl,
+        weight: product_unit ? parseFloat(product_unit) : 0,
         dubai_only,
       });
     }

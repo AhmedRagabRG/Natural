@@ -87,7 +87,7 @@ export const ForgotItemsModal: React.FC<ForgotItemsModalProps> = ({
       price: price,
       originalPrice: product.price !== price ? product.price : undefined,
       image: product.image_url,
-      weight: product.weight,
+      weight: product.product_unit ? parseFloat(product.product_unit) : 0,
     });
   };
 

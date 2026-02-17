@@ -172,7 +172,7 @@ const Header: React.FC = () => {
               special_price: product.special_price,
               images: product.images,
               imageUrl: product.image_url || '',
-              weight: resolvedUnit ? parseFloat(resolvedUnit) : 0,
+              weight: product.product_unit ? parseFloat(product.product_unit) : 0,
               unit: resolvedUnit,
               product_url: product.product_url,
               parent_product_id: product.parent_product_id,
