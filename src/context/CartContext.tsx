@@ -128,8 +128,9 @@ const calculateTotals = (items: CartItem[], discount: number = 0, groundFloorPic
   }
   
   // Calculate reward points (3 points per AED)
-  const rewardPoints = Math.floor(subtotal * 3);
-  const rewardValue = parseFloat(formatPrice(rewardPoints * 0.01));
+  // If points were redeemed (discount > 0), no new points are earned for this order
+  const rewardPoints = discount > 0 ? 0 : Math.floor(subtotal * 3);
+  const rewardValue = discount > 0 ? 0 : parseFloat(formatPrice(rewardPoints * 0.01));
   
   // Calculate final total (include shipping and overweight fee)
   const total = subtotal + shipping + overWeightFee - discount;
@@ -223,10 +224,11 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       const totals = calculateTotals(state.items, newDiscount, state.checkout.form.groundFloorPickup);
       return {
         ...state,
+        ...totals,
         discount: newDiscount,
+        // When points are redeemed, this order earns 0 new points
         rewardPoints: 0,
         rewardValue: 0,
-        ...totals,
       };
     }
 

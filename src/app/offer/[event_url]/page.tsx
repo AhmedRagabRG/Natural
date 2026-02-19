@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { useProduct } from "../../../context/ProductContext";
 import { getFirstImageUrl } from "../../../utils/imageUtils";
 import { useProductUpdates } from "../../../hooks/useProductUpdates";
@@ -268,6 +269,36 @@ export default function OfferPage() {
       <div key="main-content" className="offers-page">
         <main className="offers-page">
           <div className="container">
+            {/* Event Banner */}
+            {currentEvent && (
+              <div style={{
+                width: '100%',
+                maxHeight: '350px',
+                overflow: 'hidden',
+                borderRadius: '12px',
+                marginTop: '16px',
+                marginBottom: '8px',
+              }}>
+                <Image
+                  src={`https://dashboard.naturalspicesuae.com/uploads/events/${currentEvent.id}.jpg`}
+                  alt={currentEvent.name}
+                  width={1200}
+                  height={350}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'cover',
+                    borderRadius: '12px',
+                  }}
+                  priority
+                  onError={(e) => {
+                    // Hide banner if image doesn't exist
+                    (e.target as HTMLImageElement).parentElement!.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+
             {/* Featured Products Header */}
             <div
               className="featured-products-header"

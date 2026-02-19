@@ -524,14 +524,16 @@ const CheckoutModal: React.FC = () => {
             }
           }
 
-          // NEW: Add earned points for current order to our database via new API
+          // Add earned points for current order - BUT NOT if points were redeemed
+          // When customer redeems points, they get no new points for that order (starts from 0)
+          if (!isRedeemed) {
           try {
             const mobile = onlyDigits(state.checkout.form.mobile);
             if (mobile && state.subtotal > 0) {
               // Calculate the actual amount paid (after redeeming points)
-              const actualAmountPaid = state.subtotal - (isRedeemed ? (userRewardValue || 0) : 0);
+              const actualAmountPaid = state.subtotal;
               
-              // Only earn points on the actual amount paid, not on redeemed points
+              // Only earn points on the actual amount paid
               if (actualAmountPaid > 0) {
                 // Calculate points earned for this order: 3 points per AED actually paid
                 const pointsEarned = Math.floor(actualAmountPaid * 3);
@@ -562,6 +564,9 @@ const CheckoutModal: React.FC = () => {
             }
           } catch (earnedPointsError) {
             console.error('❌ Error recording earned points:', earnedPointsError);
+          }
+          } else {
+            console.log('ℹ️ Points were redeemed - no new points earned for this order');
           }
 
           // If coupon is applied, mark it as used
