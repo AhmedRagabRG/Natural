@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useRouter } from 'next/navigation';
 import { formatPrice, calculateRewardPoints } from "../utils/price";
 import { gtmBeginCheckout, gtmApplyCoupon } from '../utils/gtm';
+import UpsellModal from './UpsellModal';
 
 const CheckoutModal: React.FC = () => {
   const { 
@@ -53,6 +54,8 @@ const CheckoutModal: React.FC = () => {
   const [showShippingInfo, setShowShippingInfo] = useState(false);
   const [showReturnInfo, setShowReturnInfo] = useState(false);
   const [dubaiError, setDubaiError] = useState(false);
+  const [showUpsellModal, setShowUpsellModal] = useState(false);
+  const [upsellDiscount, setUpsellDiscount] = useState(0);
   
   // State for restricted items popup
   const [restrictionPopup, setRestrictionPopup] = useState<{show: boolean, items: string[]}>({
@@ -327,10 +330,10 @@ const CheckoutModal: React.FC = () => {
         items: state.items,
         total: state.subtotal + state.shipping + state.overWeightFee + getPaymentMethodFee() - 
                (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) - 
-               (isRedeemed ? (userRewardValue || 0) : 0),
+               (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount,
         subtotal: state.subtotal,
         shipping: state.shipping,
-        discount: appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0,
+        discount: (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) + upsellDiscount,
         coupon: appliedCoupon?.coupon_code || null,
         redeemAmount: isRedeemed ? userRewardValue : 0
       };
@@ -354,7 +357,7 @@ const CheckoutModal: React.FC = () => {
           : onlyDigits(state.checkout.form.mobile),
         amount: state.subtotal,
         delivery_charges: state.shipping,
-        discount: appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0,
+        discount: (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) + upsellDiscount,
         service_fee: getPaymentMethodFee(),
         redeem_amount: isRedeemed ? userRewardValue : 0,
         // Include overWeightFee in shipping_charges so the dashboard reflects full shipping cost
@@ -366,7 +369,8 @@ const CheckoutModal: React.FC = () => {
           state.overWeightFee +
           getPaymentMethodFee() -
           (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) -
-          (isRedeemed ? (userRewardValue || 0) : 0),
+          (isRedeemed ? (userRewardValue || 0) : 0) -
+          upsellDiscount,
         address: finalAddress,
         payment_type: paymentTypeCode,
         delivery_type: paymentTypeCode,
@@ -604,6 +608,7 @@ const CheckoutModal: React.FC = () => {
       setShowCaptcha(false);
       setAppliedCoupon(null);
       setIsRedeemed(false);
+      setUpsellDiscount(0);
       
       // Refresh points from new API after order completion
       if (state.checkout.form.mobile && state.checkout.form.mobile.replace(/\D/g, '').length >= 8) {
@@ -744,8 +749,11 @@ const CheckoutModal: React.FC = () => {
       return;
     }
     
-    // Show captcha verification before processing order
-    // Raw order will be created only after successful captcha verification
+    // Show upsell modal before captcha
+    setShowUpsellModal(true);
+  };
+
+  const proceedToCaptcha = () => {
     setShowCaptcha(true);
     setCaptcha({
       num1: Math.floor(Math.random() * 10) + 1,
@@ -753,6 +761,26 @@ const CheckoutModal: React.FC = () => {
       userAnswer: '',
       error: false
     });
+  };
+
+  const handleUpsellConfirm = (upsellItems: { id: string; extraQty: number; discountPerUnit: number }[]) => {
+    // Add extra quantities to cart
+    let totalDiscount = 0;
+    for (const item of upsellItems) {
+      for (let i = 0; i < item.extraQty; i++) {
+        updateQuantity(item.id, 1);
+      }
+      totalDiscount += item.discountPerUnit * item.extraQty;
+    }
+    setUpsellDiscount(totalDiscount);
+    setShowUpsellModal(false);
+    proceedToCaptcha();
+  };
+
+  const handleUpsellSkip = () => {
+    setUpsellDiscount(0);
+    setShowUpsellModal(false);
+    proceedToCaptcha();
   };
 
   const sendOrderEmail = async (orderId: string) => {
@@ -766,14 +794,14 @@ const CheckoutModal: React.FC = () => {
         contactNumber: state.checkout.form.mobile || 'N/A',
         whatsappNumber: state.checkout.form.whatsapp || state.checkout.form.mobile || 'N/A',
         subtotal: state.subtotal || 0,
-        discount: appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0,
+        discount: (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) + upsellDiscount,
         redeemAmount: isRedeemed ? (userRewardValue || 0) : 0,
         shipping: state.shipping || 0,
         overWeightFee: state.overWeightFee || 0,
         transactionFee: getPaymentMethodFee(),
         grandTotal: (state.subtotal || 0) + (state.shipping || 0) + (state.overWeightFee || 0) + getPaymentMethodFee() - 
           (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) - 
-          (isRedeemed ? (userRewardValue || 0) : 0),
+          (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount,
         items: state.items.map(item => ({
           name: item.name || 'Unknown Product',
           sku: item.id || 'N/A',
@@ -821,7 +849,7 @@ const CheckoutModal: React.FC = () => {
         customerPhone: state.checkout.form.whatsapp || state.checkout.form.mobile || 'N/A',
         total: (state.subtotal || 0) + (state.shipping || 0) + (state.overWeightFee || 0) + getPaymentMethodFee() - 
           (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) - 
-          (isRedeemed ? (userRewardValue || 0) : 0),
+          (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount,
         paymentMethod: state.checkout.form.paymentMethod || 'cash',
         address: `${state.checkout.form.area ? `[${state.checkout.form.area}] ` : ''}${state.checkout.form.address || ''}, ${state.checkout.form.city || ''}${state.checkout.form.groundFloorPickup ? ' (Ground Floor Pickup)' : ''}`.trim().replace(/^,\s*/, ''),
         items: state.items.map(item => ({
@@ -830,7 +858,7 @@ const CheckoutModal: React.FC = () => {
           price: item.price || 0
         })),
         deliveryCharges: state.shipping || 0,
-        discount: appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0
+        discount: (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) + upsellDiscount
       };
 
       const response = await fetch('/api/whatsapp/send', {
@@ -1861,6 +1889,31 @@ const CheckoutModal: React.FC = () => {
                       </div>
                     </div>
                   )}
+                  {upsellDiscount > 0 && (
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '10px 0',
+                      borderBottom: '1px solid #f5f5f5',
+                      fontSize: '0.95rem'
+                    }}>
+                      <span style={{ fontWeight: '500', color: '#f97316' }}>Extra Items Discount (10%)</span>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center',
+                        fontWeight: '600', 
+                        color: '#f97316',
+                        minWidth: '70px',
+                        textAlign: 'left',
+                        justifyContent: 'flex-start', 
+                      }}>
+                        <span style={{ marginRight: '4px' }}>-</span>
+                        <span className='aed' style={{ marginRight: '4px' }}></span>
+                        <span>{formatPrice(upsellDiscount)}</span>
+                      </div>
+                    </div>
+                  )}
                   {state.checkout.form.paymentMethod && getPaymentMethodFee() > 0 && (
                     <div style={{
                       display: 'flex',
@@ -1909,7 +1962,7 @@ const CheckoutModal: React.FC = () => {
                     }}>
                       <span className='aed' style={{ marginRight: '4px' }}></span>
                       <span>{formatPrice(
-                        state.subtotal + state.shipping + state.overWeightFee + getPaymentMethodFee() - (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) - (isRedeemed ? (userRewardValue || 0) : 0)
+                        state.subtotal + state.shipping + state.overWeightFee + getPaymentMethodFee() - (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) - (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount
                       )}</span>
                     </div>
                   </div>
@@ -2131,6 +2184,14 @@ const CheckoutModal: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Upsell Modal */}
+      <UpsellModal
+        isOpen={showUpsellModal}
+        items={state.items}
+        onConfirm={handleUpsellConfirm}
+        onSkip={handleUpsellSkip}
+      />
     </div>
   );
 };
