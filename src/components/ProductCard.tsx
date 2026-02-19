@@ -54,6 +54,7 @@ interface ProductCardProps {
   product_url?: string;
   is_parent?: number;
   dubai_only?: number;
+  product_unit?: string;
   onProductClick?: () => void;
 }
 
@@ -66,6 +67,7 @@ export default function ProductCard({
   product_url,
   is_parent,
   dubai_only,
+  product_unit,
   onProductClick
 }: ProductCardProps) {
   const { addItem, decreaseQuantity, increaseQuantity, state } = useCart();

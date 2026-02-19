@@ -1,0 +1,27 @@
+[    1347ms] [WARNING] %c%s%c  [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3060". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3421
+[    1769ms] TypeError: Cannot read properties of null (reading 'addEventListener')
+    at <anonymous>:1:36
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:880:429
+    at NR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:882:31)
+    at Od.MR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:879:85)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:308:187)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:235:466)
+    at lb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:196:527)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:259:473)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:235:466)
+    at lb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at k.kq (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:199:117)
+    at wf (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:270:960)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:752:315
+    at wg (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:290:394)
+    at e (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:692:230)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:203:125
+    at Array.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:414)
+    at Object.execute (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:154)
+    at eB (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:874)
+    at iB (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:698:117)
+    at CC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:726:308)
+    at EC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:728:47)
+[    1790ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:173
+[    1791ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:173
