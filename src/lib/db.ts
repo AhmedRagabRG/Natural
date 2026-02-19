@@ -1160,6 +1160,8 @@ export class ProductService {
 
   static async getTopSellers(limit: number = 8, lang: string = 'en') {
     try {
+      // Top sellers based on last calendar month's sales
+      // e.g. in February we show January's top sellers, in March we show February's, etc.
       const query = `
         SELECT 
           p.*,
@@ -1171,6 +1173,8 @@ export class ProductService {
         LEFT JOIN af_subcategory sc ON p.sub_category_id = sc.id
         INNER JOIN af_guestorder_items oi ON p.product_id = oi.product_id
         WHERE p.status = 1
+          AND oi.created_at >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01')
+          AND oi.created_at < DATE_FORMAT(CURDATE(), '%Y-%m-01')
         GROUP BY p.product_id
         ORDER BY total_sold DESC
         LIMIT ${Number(limit)}
