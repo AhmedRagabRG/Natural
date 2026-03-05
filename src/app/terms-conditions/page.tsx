@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import '../../styles/policy.css';
 
 const TermsConditionsPage: React.FC = () => {
   const handlePrint = () => {

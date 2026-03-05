@@ -51,13 +51,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let categoryPages: MetadataRoute.Sitemap = [];
   try {
     const [categories] = await pool.execute(
-      'SELECT category_url, updated_at FROM af_category WHERE status = 1'
+      'SELECT category_url, created_at FROM af_category WHERE status = 1'
     ) as [RowDataPacket[], unknown];
     categoryPages = categories
       .filter((c) => c.category_url)
       .map((c) => ({
         url: `${BASE_URL}/category/${c.category_url}`,
-        lastModified: c.updated_at ? new Date(c.updated_at) : new Date(),
+        lastModified: c.created_at ? new Date(c.created_at) : new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.8,
       }));
@@ -69,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let productPages: MetadataRoute.Sitemap = [];
   try {
     const [products] = await pool.execute(
-      'SELECT product_url, updated_at FROM af_products WHERE status = 1 AND (is_parent = 0 OR is_parent IS NULL) AND product_url IS NOT NULL AND product_url != \'\''
+      "SELECT product_url, updated_at FROM af_products WHERE status = 1 AND (is_parent = 0 OR is_parent IS NULL) AND product_url IS NOT NULL AND product_url != ''"
     ) as [RowDataPacket[], unknown];
     productPages = products.map((p) => ({
       url: `${BASE_URL}/product/${p.product_url}`,

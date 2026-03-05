@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { getFirstImageUrl } from '../../utils/imageUtils';
-import './page.css';
 
 interface Blog {
   id: number;
