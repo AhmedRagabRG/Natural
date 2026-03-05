@@ -300,7 +300,7 @@ export default function OfferPage() {
             )}
 
             {/* Featured Products Header */}
-            <div
+            {/* <div
               className="featured-products-header"
               style={{ padding: "25px 20px", paddingTop: "30px" }}
             >
@@ -316,7 +316,7 @@ export default function OfferPage() {
                   </div>
                 </h1>
               </div>
-            </div>
+            </div> */}
 
             {/* Filter Dropdown */}
             <div

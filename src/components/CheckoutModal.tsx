@@ -1295,9 +1295,9 @@ const CheckoutModal: React.FC = () => {
                     onChange={(e) => {
                       const selectedArea = e.target.value;
                       const updates: any = { area: selectedArea };
-                      if (selectedArea === 'Others') {
-                        updates.address = 'Bur Juman 201 A';
-                      }
+                      // if (selectedArea === 'Others') {
+                      //   updates.address = '';
+                      // }
                       updateCheckoutForm(updates);
                     }}
                     style={{
