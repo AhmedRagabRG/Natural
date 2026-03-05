@@ -152,7 +152,8 @@ const Header: React.FC = () => {
             image_url?: string;
             parent_product_id?: number | null;
             is_parent?: number;
-            unit?: string; // Add unit just in case
+            dubai_only?: number;
+            unit?: string;
           }) => {
             const hasSpecial =
               typeof product.special_price === "number" &&

@@ -124,7 +124,8 @@ export async function POST(request: NextRequest) {
 }
 
 // Utility function to broadcast updates (can be called from other parts of the app)
-export function broadcastProductUpdate(type: string, data: unknown) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function broadcastProductUpdate(type: string, data: unknown) {
   const message = `data: ${JSON.stringify({
     type,
     data,

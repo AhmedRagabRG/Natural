@@ -14,6 +14,7 @@ interface Product {
   discount_percentage?: number;
   image_url?: string;
   weight?: number;
+  product_unit?: string;
   product_url?: string;
   category?: {
     id: number;

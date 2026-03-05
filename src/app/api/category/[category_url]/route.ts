@@ -3,10 +3,10 @@ import { CategoryService } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { category_url: string } }
+  { params }: { params: Promise<{ category_url: string }> }
 ) {
   try {
-    const { category_url } = params;
+    const { category_url } = await params;
     const { searchParams } = new URL(request.url);
     const include_subcategories = searchParams.get('include_subcategories') === 'true';
 

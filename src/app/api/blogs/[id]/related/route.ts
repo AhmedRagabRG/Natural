@@ -3,10 +3,11 @@ import { BlogService } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '5');
     

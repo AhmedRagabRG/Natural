@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      "SELECT name, description, price, special_price, images FROM af_products WHERE product_url = ? AND status = 1 LIMIT 1",
+      "SELECT name, price, special_price, images FROM af_products WHERE product_url = ? AND status = 1 LIMIT 1",
       [product_url]
     );
 
@@ -19,10 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       const product = rows[0];
       const price = product.special_price || product.price;
       const title = product.name;
-      const description =
-        product.description
-          ? product.description.replace(/<[^>]*>/g, "").substring(0, 160)
-          : `Buy ${product.name} online at Natural Spices UAE. AED ${price} with UAE-wide delivery.`;
+      const description = `Buy ${product.name} online at Natural Spices UAE. AED ${price} with UAE-wide delivery.`;
 
       // Try to get first image
       let imageUrl: string | undefined;

@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
       Object.entries(orderData).filter(([_, value]) => value !== null)
     );
 
-    const result = await OrderService.createGuestOrder(filteredOrderData);
+    const result = await OrderService.createGuestOrder(filteredOrderData as Omit<GuestOrder, 'created_at' | 'updated_at' | 'order_id'>);
 
     return NextResponse.json(
       {

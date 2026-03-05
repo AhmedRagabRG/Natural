@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { OrderService, GuestOrder } from '../../../../lib/db';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // GET /api/orders/[id] - Get single guest order by ID

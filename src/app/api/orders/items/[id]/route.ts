@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import pool from '../../../../../lib/db';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 interface OrderItem {

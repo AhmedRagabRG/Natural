@@ -3,10 +3,10 @@ import { ProductService } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
-    const { categoryId } = params;
+    const { categoryId } = await params;
     const { searchParams } = new URL(request.url);
     
     const categoryIdNum = parseInt(categoryId);
