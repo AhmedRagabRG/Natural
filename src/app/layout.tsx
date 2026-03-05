@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./flex-grids.min.css";
 import { CartProvider } from "../context/CartContext";
 import { ProductProvider } from "../context/ProductContext";
 import { TopBar, Header, Footer, MobileFixedFooter, CartModal } from "../components";
@@ -120,40 +121,38 @@ export default function RootLayout({
           }}
         />
 
-        {/* Google Tag Manager + Meta Pixel – deferred until user interaction or 3.5 s idle */}
+        {/* Google Tag Manager */}
         <Script
-          id="deferred-analytics"
+          id="gtm-script"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-              (function(){
-                var loaded=false;
-                function loadAnalytics(){
-                  if(loaded)return;loaded=true;
-                  // GTM
-                  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                  })(window,document,'script','dataLayer','GTM-WQSRD52');
-                  // Meta Pixel
-                  !function(f,b,e,v,n,t,s)
-                  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                  n.queue=[];t=b.createElement(e);t.async=!0;
-                  t.src=v;s=b.getElementsByTagName(e)[0];
-                  s.parentNode.insertBefore(t,s)}(window,document,'script',
-                  'https://connect.facebook.net/en_US/fbevents.js');
-                  fbq('init','1138245426635278');
-                  fbq('track','PageView');
-                }
-                // Fire on first user interaction OR after 3.5s, whichever is first
-                var events=['scroll','click','touchstart','keydown'];
-                function onInteract(){events.forEach(function(e){window.removeEventListener(e,onInteract)});loadAnalytics();}
-                events.forEach(function(e){window.addEventListener(e,onInteract,{once:true,passive:true})});
-                setTimeout(loadAnalytics,3500);
-              })();
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-WQSRD52');
+            `,
+          }}
+        />
+        {/* End Google Tag Manager */}
+        
+        {/* Meta Pixel Code */}
+        <Script
+          id="meta-pixel"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '1138245426635278');
+              fbq('track', 'PageView');
             `,
           }}
         />
@@ -225,7 +224,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      {children}
+      <main>{children}</main>
     </>
   );
 }
