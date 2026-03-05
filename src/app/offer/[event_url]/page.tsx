@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import "./page.css";
 import { useProduct } from "../../../context/ProductContext";
 import { getFirstImageUrl } from "../../../utils/imageUtils";
 import { useProductUpdates } from "../../../hooks/useProductUpdates";

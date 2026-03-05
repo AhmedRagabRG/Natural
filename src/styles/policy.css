@@ -1,0 +1,604 @@
+/* Policy Pages Styles */
+.privacy-policy {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.8)
+  );
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.privacy-policy h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 32px;
+  color: var(--color-green);
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.privacy-policy h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--color-yellow);
+}
+
+.privacy-policy h2 {
+  font-size: 22px;
+  margin: 35px 0 20px;
+  color: #125f83;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.privacy-policy h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: var(--color-yellow);
+  border-radius: 2px;
+}
+
+.privacy-policy p {
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.privacy-policy ul {
+  margin: 0 0 20px 25px;
+  list-style: none;
+}
+
+.privacy-policy li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.privacy-policy li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-green);
+  border-radius: 50%;
+}
+
+.last-updated {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-style: italic;
+  color: #666;
+  text-align: right;
+}
+
+.print-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--color-green);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.print-button:hover {
+  background: #125f83;
+  transform: translateY(-2px);
+}
+
+.print-button i {
+  font-size: 16px;
+}
+
+/* Terms & Conditions Styles */
+.terms-conditions {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.8)
+  );
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.terms-conditions h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 32px;
+  color: var(--color-green);
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.terms-conditions h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--color-yellow);
+}
+
+.terms-conditions h2 {
+  font-size: 22px;
+  margin: 35px 0 20px;
+  color: #125f83;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.terms-conditions h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: var(--color-yellow);
+  border-radius: 2px;
+}
+
+.terms-conditions p {
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.terms-conditions ul {
+  margin: 0 0 20px 25px;
+  list-style: none;
+}
+
+.terms-conditions li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.terms-conditions li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-green);
+  border-radius: 50%;
+}
+
+/* Refund Policy Styles */
+.policy-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.policy-content {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.8)
+  );
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.policy-header {
+  text-align: center;
+  padding: 40px;
+  background: none;
+  color: #444;
+}
+
+.policy-title {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: var(--color-green);
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.policy-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--color-yellow);
+}
+
+.policy-subtitle {
+  font-size: 16px;
+  color: #555;
+  margin: 0;
+}
+
+.policy-box {
+  padding: 40px;
+}
+
+.policy-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  color: #125f83;
+  font-size: 22px;
+  margin: 35px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: var(--color-yellow);
+  border-radius: 2px;
+}
+
+.section-title i {
+  color: var(--color-green);
+  margin-right: 5px;
+}
+
+.policy-text {
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 15px 0;
+}
+
+.info-box {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  padding: 25px;
+  margin: 30px 0;
+  border-left: 4px solid var(--color-yellow);
+}
+
+.info-box-title {
+  color: #125f83;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-box-content {
+  color: #555;
+  line-height: 1.6;
+}
+
+.contact-section {
+  text-align: center;
+  margin-top: 40px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.contact-text {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.contact-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contact-button:hover {
+  background: #20b954;
+  transform: translateY(-2px);
+  color: white;
+  text-decoration: none;
+}
+
+/* Shipping Policy Styles */
+.shipping-info-section {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.8)
+  );
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.shipping-info-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 15px;
+}
+
+.shipping-info-header h1 {
+  color: var(--color-green);
+  font-size: 32px;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.shipping-info-header h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--color-yellow);
+}
+
+.shipping-info-header p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.shipping-rates h2 {
+  color: #125f83;
+  font-size: 22px;
+  margin: 35px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shipping-rates h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: var(--color-yellow);
+  border-radius: 2px;
+}
+
+.shipping-rates h2 i {
+  color: var(--color-green);
+  margin-right: 5px;
+}
+
+.rate-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 60px;
+}
+
+.rate-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.rate-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-green);
+  border-radius: 50%;
+}
+
+.rate-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #125f83;
+}
+
+.rate-price.free {
+  color: var(--color-green);
+  font-size: 20px;
+}
+
+.rate-description {
+  color: #555;
+  font-size: 16px;
+}
+
+.shipping-notes {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  padding: 25px;
+  margin-top: 30px;
+  border-left: 4px solid var(--color-yellow);
+}
+
+.shipping-notes h3 {
+  color: #125f83;
+  font-size: 18px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shipping-notes ul {
+  margin: 0 0 20px 25px;
+  list-style: none;
+}
+
+.shipping-notes li {
+  color: #555;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 20px;
+}
+
+.shipping-notes li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-green);
+  border-radius: 50%;
+}
+
+/* Mobile Responsive for Policy Pages */
+@media (max-width: 768px) {
+  .privacy-policy,
+  .terms-conditions,
+  .policy-container,
+  .shipping-info-section {
+    margin: 20px;
+    padding: 25px;
+    font-size: 15px;
+  }
+  
+  .privacy-policy h1,
+  .terms-conditions h1,
+  .policy-title,
+  .shipping-info-header h1 {
+    font-size: 26px;
+  }
+  
+  .privacy-policy h2,
+  .terms-conditions h2,
+  .section-title,
+  .shipping-rates h2 {
+    font-size: 20px;
+  }
+  
+  .print-button {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+  }
+  
+  .rate-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .policy-header {
+    padding: 30px 20px;
+  }
+  
+  .policy-box {
+    padding: 20px;
+  }
+}
+
+@media print {
+  .print-button,
+  .whatsapp-float,
+  .top-bar,
+  .header-container,
+  .main-footer,
+  header,
+  footer,
+  .mobile-fixed-footer {
+    display: none !important;
+  }
+  
+  .privacy-policy,
+  .terms-conditions,
+  .policy-container,
+  .shipping-info-section {
+    margin: 0;
+    padding: 20px;
+    background: none !important;
+    box-shadow: none !important;
+  }
+  
+  .privacy-policy h1,
+  .privacy-policy h2,
+  .terms-conditions h1,
+  .terms-conditions h2,
+  .policy-title,
+  .section-title,
+  .shipping-info-header h1,
+  .shipping-rates h2 {
+    color: #000 !important;
+  }
+  
+  .privacy-policy h2::before,
+  .terms-conditions h2::before,
+  .section-title::before,
+  .shipping-rates h2::before {
+    display: none !important;
+  }
+  
+  .privacy-policy li::before,
+  .terms-conditions li::before,
+  .rate-item::before,
+  .shipping-notes li::before {
+    background: #000 !important;
+  }
+  
+  @page {
+    margin: 2cm;
+  }
+}

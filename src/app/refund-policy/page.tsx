@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import '../../styles/policy.css';
 
 const RefundPolicyPage: React.FC = () => {
   return (

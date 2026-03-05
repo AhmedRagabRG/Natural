@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import './page.css';
 import Image from 'next/image';
 import { getFirstImageUrl } from '../../../utils/imageUtils';
 
