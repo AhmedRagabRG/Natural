@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* Core Web Vitals optimisations */
+  poweredByHeader: false,         // remove X-Powered-By header
+  compress: true,                 // enable gzip/brotli
 
   images: {
     remotePatterns: [
@@ -18,10 +20,13 @@ const nextConfig: NextConfig = {
         pathname: '/uploads/**',
       },
     ],
+    formats: ['image/avif', 'image/webp'],  // serve modern formats
+    minimumCacheTTL: 86400,                  // cache optimised images 24h
   },
 
   experimental: {
     optimizeCss: true,
+    optimizePackageImports: ['react-icons'],
   },
 
   eslint: {
@@ -30,6 +35,30 @@ const nextConfig: NextConfig = {
 
   typescript: {
     ignoreBuildErrors: true,
+  },
+
+  // Cache-Control for static assets
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|jpeg|png|gif|ico|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:all*(js|css)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
   },
 };
 

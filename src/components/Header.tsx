@@ -61,15 +61,22 @@ const Header: React.FC = () => {
     }
   });
 
-  // Unified cart controls sizing (mobile vs desktop)
+  // Unified cart controls sizing (mobile vs desktop) – debounced
   useEffect(() => {
+    let rafId: number;
     const handleResize = () => {
-      if (typeof window === "undefined") return;
-      setIsMobileViewport(window.innerWidth <= 768);
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (typeof window === "undefined") return;
+        setIsMobileViewport(window.innerWidth <= 768);
+      });
     };
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const cartUIStyle = useMemo(() => {
@@ -293,6 +300,10 @@ const Header: React.FC = () => {
 
   const handleSearchFocus = () => {
     setShowDropdown(true);
+    // Lazy-load product catalogue on first search focus (reduces INP)
+    if (allProducts.length === 0 && !productsLoading) {
+      fetchAllProducts();
+    }
   };
 
   // Keep mobile dropdown full-width and anchored under the input
@@ -414,10 +425,9 @@ const Header: React.FC = () => {
     };
   }, []);
 
-  // Fetch offers and products on component mount
+  // Fetch offers on component mount (products deferred to search focus)
   useEffect(() => {
     fetchOffers();
-    fetchAllProducts();
   }, []);
 
   return (

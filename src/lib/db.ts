@@ -1909,6 +1909,52 @@ export class CategoryService {
     }
   }
 
+  /**
+   * Single-query fetch: categories + product count + average discount.
+   * Used by the server-rendered homepage to eliminate the N+1 waterfall.
+   */
+  static async getCategoriesForHomepage() {
+    const connection = await pool.getConnection();
+
+    try {
+      const query = `
+        SELECT
+          c.id,
+          c.name,
+          c.category_url,
+          c.file_extension,
+          COUNT(p.product_id) AS product_count,
+          ROUND(
+            AVG(
+              CASE
+                WHEN p.special_price > 0 AND p.special_price < p.price
+                THEN (1 - p.special_price / p.price) * 100
+                ELSE NULL
+              END
+            )
+          ) AS avg_discount
+        FROM af_category c
+        LEFT JOIN af_products p
+          ON p.category_id = c.id AND p.status = 'active'
+        WHERE c.status = 1
+        GROUP BY c.id
+        ORDER BY c.cat_priority ASC
+      `;
+
+      const [rows] = await connection.execute(query);
+      return rows as {
+        id: number;
+        name: string;
+        category_url: string | null;
+        file_extension: string | null;
+        product_count: number;
+        avg_discount: number | null;
+      }[];
+    } finally {
+      connection.release();
+    }
+  }
+
   static async getSubcategoriesByCategory(categoryId: number, params: {
     page?: number;
     limit?: number;

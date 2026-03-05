@@ -3,11 +3,15 @@ import { CategoryService } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
-    const categories = await CategoryService.getCategoriesWithProductCount();
+    const categories = await CategoryService.getCategoriesForHomepage();
 
     return NextResponse.json({
       success: true,
       data: categories
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+      },
     });
   } catch (error) {
     console.error('Error fetching categories with product count:', error);
