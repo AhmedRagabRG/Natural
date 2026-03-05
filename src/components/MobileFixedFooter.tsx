@@ -165,7 +165,7 @@ const MobileFixedFooter: React.FC = () => {
             </Link>
           ))
         ) : (
-          <Link href="/offers" style={{ textDecoration: 'none' }}>
+          <Link href="/" style={{ textDecoration: 'none' }}>
             <div 
               className="item"
               style={{

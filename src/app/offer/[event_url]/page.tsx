@@ -305,7 +305,7 @@ export default function OfferPage() {
               style={{ padding: "25px 20px", paddingTop: "30px" }}
             >
               <div className="header-content">
-                <h2 className="section-title">
+                <h1 className="section-title">
                   <div className="title-with-count">
                     <span key="title" className="title-text">
                       {currentEvent ? currentEvent.name : "Special Offers"}
@@ -314,7 +314,7 @@ export default function OfferPage() {
                       ({products.length} Items)
                     </span>
                   </div>
-                </h2>
+                </h1>
               </div>
             </div>
 

@@ -308,6 +308,7 @@ export default function Home() {
   return (
     <main>
       <div className="main-container" style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}>
+        <h1 className="sr-only">Natural Spices UAE – Premium Spices, Herbs & Groceries Delivered Across UAE</h1>
         {/* Loading indicator */}
         {loading && (
           <div className="loading-indicator">

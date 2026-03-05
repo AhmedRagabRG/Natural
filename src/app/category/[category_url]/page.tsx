@@ -189,7 +189,7 @@ export default function CategoryPage() {
               style={{ padding: "25px 20px", paddingTop: "30px" }}
             >
               <div className="header-content">
-                <h2 className="section-title">
+                <h1 className="section-title">
                   <div className="title-with-count">
                     <span key="title" className="title-text">
                       {currentCategory ? currentCategory.name : "Category Products"}
@@ -198,7 +198,7 @@ export default function CategoryPage() {
                       ({products.length} Items)
                     </span>
                   </div>
-                </h2>
+                </h1>
               </div>
             </div>
 

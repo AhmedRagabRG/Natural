@@ -19,32 +19,52 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Online Grocery Shopping Offers in Dubai with Free Delivery",
-  description: "Online shopping grocery free delivery in Dubai. Fresh food and Natural Organic items from India, Pakistan, fresh paneer, nuts, seeds, rice, spices, grains, dals",
+  metadataBase: new URL('https://naturalspicesuae.com'),
+  title: {
+    default: "Online Grocery Shopping in Dubai | Natural Spices UAE – Free Delivery",
+    template: "%s | Natural Spices UAE",
+  },
+  description: "Online grocery shopping with free delivery in Dubai. Fresh Indian spices, organic pulses, dry fruits, nuts, seeds, rice, grains & dals from Natural Spices UAE.",
   keywords: "Natural spices dubai, herbs and spices dubai, fresh pulses in dubai, order nuts online, order herbs online, fresh indian pulses, fresh indian spices, grocery delivery in dubai, dry fruit delivery dubai, quality nuts in dubai, order groceries online, buy grocery online in dubai, dry fruits in dubai, dubai spice souk, spice market dubai",
-  authors: [{ name: "Natural Spices" }],
+  authors: [{ name: "Natural Spices UAE" }],
   robots: "index,follow",
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-AE': '/',
+    },
+  },
   openGraph: {
-    locale: "en_US",
-    title: "Natural Spices",
-    description: "Natural Spices",
+    type: 'website',
+    locale: "en_AE",
+    url: 'https://naturalspicesuae.com',
+    title: "Online Grocery Shopping in Dubai | Natural Spices UAE",
+    description: "Fresh Indian spices, organic pulses, dry fruits, nuts, seeds & groceries delivered free in Dubai. Shop online at Natural Spices UAE.",
     images: [
        {
          url: "/logo_header.png",
-         alt: "Natural Spices Logo"
+         width: 512,
+         height: 512,
+         alt: "Natural Spices UAE Logo"
        }
      ],
-    siteName: "Natural Spices"
+    siteName: "Natural Spices UAE"
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Online Grocery Shopping in Dubai | Natural Spices UAE",
+    description: "Fresh spices, dry fruits, nuts & groceries delivered free in Dubai.",
+    images: ["/logo_header.png"],
   },
   other: {
-    "Classification": "Natural Spices",
+    "Classification": "Online Grocery Store",
     "audience": "All",
     "googlebot": "index,follow",
     "distribution": "Global",
-    "Language": "en-us",
+    "Language": "en-ae",
     "doc-type": "Public",
     "facebook-domain-verification": "1f18zvu8inxrx0fnt84aim2q1h3vhw",
-    "site_name": "Natural Spices"
+    "site_name": "Natural Spices UAE"
   }
 };
 
@@ -56,6 +76,51 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Schema.org Structured Data – Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "GroceryStore",
+              "name": "Natural Spices UAE",
+              "url": "https://naturalspicesuae.com",
+              "logo": "https://naturalspicesuae.com/logo_header.png",
+              "image": "https://naturalspicesuae.com/logo_header.png",
+              "description": "Online grocery shopping with free delivery in Dubai. Fresh Indian spices, organic pulses, dry fruits, nuts, seeds, rice, grains & dals.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Dubai",
+                "addressCountry": "AE"
+              },
+              "sameAs": [
+                "https://www.instagram.com/naturalspicesuae/",
+                "https://www.facebook.com/naturalspicesuae",
+                "https://www.tiktok.com/@naturalspicesuae",
+                "https://www.linkedin.com/company/naturalspicesuae/"
+              ],
+              "priceRange": "$$"
+            }),
+          }}
+        />
+        {/* Schema.org – WebSite with SearchAction */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Natural Spices UAE",
+              "url": "https://naturalspicesuae.com",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://naturalspicesuae.com/?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }),
+          }}
+        />
+
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"

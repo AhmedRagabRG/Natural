@@ -728,15 +728,7 @@ const Header: React.FC = () => {
                 ))
               )}
 
-              {/* Fallback if no offers */}
-              {!offersLoading && offers.length === 0 && (
-                <div className="btn-container">
-                  <Link href="/offers" className="btn btn-primary">
-                    <i className="fa-solid fa-gift"></i>
-                    Offers
-                  </Link>
-                </div>
-              )}
+              {/* No fallback link needed - offers are dynamically loaded */}
 
               <span
                 className="hide-on-mobile"

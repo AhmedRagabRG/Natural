@@ -56,6 +56,21 @@ const Footer: React.FC = () => {
         <Link href="/refund-policy">Refund Policy</Link>
       </nav>
 
+      <div className="footer-social">
+        <a href="https://www.instagram.com/naturalspicesuae/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <i className="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com/naturalspicesuae" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i className="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://www.tiktok.com/@naturalspicesuae" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <i className="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/naturalspicesuae/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i className="fa-brands fa-linkedin-in"></i>
+        </a>
+      </div>
+
       <p className="copyright">&copy; 2025 Natural Spices UAE. All rights reserved.</p>
     </footer>
   );
