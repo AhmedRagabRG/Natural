@@ -2000,3 +2000,30 @@ export class CategoryService {
     }
   }
 }
+
+// ==================== Area Service ====================
+export class AreaService {
+  static async getActiveAreas(): Promise<{ id: number; name: string }[]> {
+    const connection = await pool.getConnection();
+    try {
+      const [rows] = await connection.execute<RowDataPacket[]>(
+        'SELECT id, name FROM af_areas WHERE status = 1 ORDER BY name ASC'
+      );
+      return rows as { id: number; name: string }[];
+    } finally {
+      connection.release();
+    }
+  }
+
+  static async getAllAreas(): Promise<{ id: number; name: string; status: number }[]> {
+    const connection = await pool.getConnection();
+    try {
+      const [rows] = await connection.execute<RowDataPacket[]>(
+        'SELECT id, name, status FROM af_areas ORDER BY name ASC'
+      );
+      return rows as { id: number; name: string; status: number }[];
+    } finally {
+      connection.release();
+    }
+  }
+}

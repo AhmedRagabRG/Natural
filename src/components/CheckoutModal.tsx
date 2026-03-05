@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useRouter } from 'next/navigation';
 import { formatPrice, calculateRewardPoints } from "../utils/price";
@@ -63,6 +63,18 @@ const CheckoutModal: React.FC = () => {
     items: []
   });
   const [pendingCity, setPendingCity] = useState<string>('');
+
+  // Dynamic cities from database
+  const [cities, setCities] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    fetch('/api/areas')
+      .then(res => res.json())
+      .then(data => {
+        if (data.areas) setCities(data.areas);
+      })
+      .catch(err => console.error('Failed to fetch cities:', err));
+  }, []);
 
   // Check if any item in cart is Dubai only
   const hasDubaiOnlyItems = React.useMemo(() => {
@@ -1248,13 +1260,9 @@ const CheckoutModal: React.FC = () => {
                   required
                 >
                   <option value="">Select a city</option>
-                  <option value="Abu Dhabi">Abu Dhabi</option>
-                  <option value="Dubai">Dubai</option>
-                  <option value="Sharjah">Sharjah</option>
-                  <option value="Ajman">Ajman</option>
-                  <option value="Umm Al Quwain">Umm Al Quwain</option>
-                  <option value="Ras Al Khaimah">Ras Al Khaimah</option>
-                  <option value="Fujairah">Fujairah</option>
+                  {cities.map(city => (
+                    <option key={city.id} value={city.name}>{city.name}</option>
+                  ))}
                 </select>
                 {dubaiError && (
                   <div style={{ 
