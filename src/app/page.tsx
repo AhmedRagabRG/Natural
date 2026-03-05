@@ -320,7 +320,7 @@ export default function Home() {
         {/* Collections Grid */}
         {!loading && (
           <div className="collections-grid">
-            {collections.map((collection) => (
+            {collections.map((collection, index) => (
               <div
                 key={collection.id}
                 data-collection-id={collection.id}
@@ -334,6 +334,7 @@ export default function Home() {
                       width={300}
                       height={200}
                       className="category-image"
+                      {...(index < 4 ? { priority: true } : {})}
                       style={{
                         // width: '100%', 
                         height: '100%',
