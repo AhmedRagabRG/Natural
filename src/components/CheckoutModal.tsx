@@ -10,6 +10,7 @@ import UpsellModal from './UpsellModal';
 const CheckoutModal: React.FC = () => {
   const { 
     state, 
+    settings,
     toggleCheckoutModal, 
     setCheckoutStep, 
     updateCheckoutForm, 
@@ -116,13 +117,13 @@ const CheckoutModal: React.FC = () => {
     updateCheckoutForm({ city: selectedCity });
   };
 
-  // Calculate payment method fees
+  // Calculate payment method fees (from DB settings)
   const getPaymentMethodFee = () => {
     switch (state.checkout.form.paymentMethod) {
       case 'cash':
-        return 2.5; // COD charge
+        return settings.cod_fee;
       case 'card':
-        return 1; // PayLink charge
+        return settings.card_fee;
       default:
         return 0;
     }
@@ -1384,7 +1385,7 @@ const CheckoutModal: React.FC = () => {
                       onChange={(e) => updateCheckoutForm({ paymentMethod: e.target.value })}
                       required
                     />
-                    <span>Cash on Delivery (COD Charge: <span className='aed'></span>2.5)</span>
+                    <span>Cash on Delivery (COD Charge: <span className='aed'></span>{settings.cod_fee})</span>
                   </label>
                   <label style={{
                     display: 'flex',
@@ -1403,7 +1404,7 @@ const CheckoutModal: React.FC = () => {
                       onChange={(e) => updateCheckoutForm({ paymentMethod: e.target.value })}
                       required
                     />
-                    <span>Card (PayLink Charge: <span className='aed'></span>1)</span>
+                    <span>Card (PayLink Charge: <span className='aed'></span>{settings.card_fee})</span>
                   </label>
                 </div>
               </div>
@@ -1455,11 +1456,11 @@ const CheckoutModal: React.FC = () => {
               {showShippingInfo && (
                 <div style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: '12px', marginBottom: '16px', background: '#ffffff' }}>
                   <ul style={{ margin: 0, paddingLeft: '18px', color: '#374151', fontSize: '0.92rem', lineHeight: 1.5 }}>
-                    <li><strong>AED 10</strong> : Orders up to <strong>AED 75</strong></li>
-                    <li><strong>AED 5</strong> : Orders from <strong>AED 75.01</strong> to <strong>AED 150</strong></li>
-                    <li><strong>FREE</strong> : Orders above <strong>AED 150</strong></li>
+                    <li><strong>AED {settings.delivery_cost_under_100}</strong> : Orders up to <strong>AED 100</strong></li>
+                    <li><strong>AED {settings.delivery_cost_100_to_200}</strong> : Orders from <strong>AED 101</strong> to <strong>AED 200</strong></li>
+                    <li><strong>FREE</strong> : Orders above <strong>AED {settings.free_delivery_threshold - 1}</strong></li>
                   </ul>
-                  <p style={{ margin: '10px 0 0', color: '#6b7280', fontSize: '0.9rem' }}>Above 10Kg, <strong>1 AED per kg</strong> will be charged.</p>
+                  <p style={{ margin: '10px 0 0', color: '#6b7280', fontSize: '0.9rem' }}>Above {settings.standard_shipping_weight_limit}Kg, <strong>{settings.extra_weight_charge_per_kg} AED per kg</strong> will be charged.</p>
                 </div>
               )}
 

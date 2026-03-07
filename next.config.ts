@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* Core Web Vitals optimisations */
   poweredByHeader: false,         // remove X-Powered-By header
   compress: true,                 // enable gzip/brotli
+  outputFileTracingRoot: __dirname, // silence lockfile warning
 
   images: {
     remotePatterns: [

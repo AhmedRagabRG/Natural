@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import pool from '@/lib/db';
+import pool, { SettingsService } from '@/lib/db';
 import { RowDataPacket } from 'mysql2/promise';
 
 export async function POST(request: NextRequest) {
@@ -35,6 +35,9 @@ export async function POST(request: NextRequest) {
 
       const currentOrder = orderRows[0];
 
+      // Fetch delivery settings from DB
+      const settings = await SettingsService.getDeliverySettings();
+
       // Calculate new items total
       let additionalAmount = 0;
       let additionalWeight = 0;
@@ -52,14 +55,20 @@ export async function POST(request: NextRequest) {
       // Calculate new shipping based on new subtotal
       const newSubtotal = (currentOrder.amount || 0) + additionalAmount;
       let newShipping = 0;
-      if (newSubtotal <= 100) {
-        newShipping = 10;
-      } else if (newSubtotal <= 200) {
-        newShipping = 4;
+      if (newSubtotal < settings.free_delivery_threshold) {
+        if (newSubtotal <= 100) {
+          newShipping = settings.delivery_cost_under_100;
+        } else if (newSubtotal <= 200) {
+          newShipping = settings.delivery_cost_100_to_200;
+        } else {
+          newShipping = settings.delivery_cost_over_200;
+        }
       }
 
       // Calculate over weight fee
-      const overWeightFee = newTotalWeight > 8 ? Math.floor(newTotalWeight - 8) * 1 : 0;
+      const overWeightFee = newTotalWeight > settings.standard_shipping_weight_limit 
+        ? Math.floor(newTotalWeight - settings.standard_shipping_weight_limit) * settings.extra_weight_charge_per_kg 
+        : 0;
 
       // Calculate new total
       const newTotal = newSubtotal + newShipping + overWeightFee + (currentOrder.service_fee || 0) - (currentOrder.discount || 0) - (currentOrder.redeem_amount || 0);

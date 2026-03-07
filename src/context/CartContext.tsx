@@ -4,6 +4,33 @@ import React, { createContext, useContext, useReducer, ReactNode, useEffect, use
 import { formatPrice } from '../utils/price';
 import { gtmAddToCart, gtmRemoveFromCart, gtmViewCart } from '../utils/gtm';
 
+// Delivery settings interface (matches af_settings DB table)
+interface DeliverySettings {
+  delivery_cost_under_100: number;
+  delivery_cost_100_to_200: number;
+  delivery_cost_over_200: number;
+  free_delivery_threshold: number;
+  standard_shipping_weight_limit: number;
+  extra_weight_charge_per_kg: number;
+  cod_fee: number;
+  card_fee: number;
+}
+
+// Default settings (fallback if API fails)
+const DEFAULT_SETTINGS: DeliverySettings = {
+  delivery_cost_under_100: 10,
+  delivery_cost_100_to_200: 4,
+  delivery_cost_over_200: 0,
+  free_delivery_threshold: 201,
+  standard_shipping_weight_limit: 8,
+  extra_weight_charge_per_kg: 1,
+  cod_fee: 2.5,
+  card_fee: 1,
+};
+
+// Module-level settings used by the reducer's calculateTotals
+let currentSettings: DeliverySettings = DEFAULT_SETTINGS;
+
 interface CartItem {
   id: string;
   name: string;
@@ -109,16 +136,23 @@ const calculateTotals = (items: CartItem[], discount: number = 0, groundFloorPic
       return sum + (w * item.quantity);
     }, 0);
     
-    // Calculate shipping based on subtotal
+    // Calculate shipping based on subtotal using DB settings
+    const s = currentSettings;
     let shipping = 0;
-    if (subtotal <= 75) {
-      shipping = 10;
-    } else if (subtotal <= 150) {
-      shipping = 5;
+    if (subtotal < s.free_delivery_threshold) {
+      if (subtotal <= 100) {
+        shipping = s.delivery_cost_under_100;
+      } else if (subtotal <= 200) {
+        shipping = s.delivery_cost_100_to_200;
+      } else {
+        shipping = s.delivery_cost_over_200;
+      }
     }
     
-  // Over weight fee: Above 10kg, 1 AED per full kg only (rounded down to nearest kg)
-  let overWeightFee = totalWeight > 10 ? Math.floor(totalWeight - 10) * 1 : 0;
+  // Over weight fee using DB settings
+  let overWeightFee = totalWeight > s.standard_shipping_weight_limit 
+    ? Math.floor(totalWeight - s.standard_shipping_weight_limit) * s.extra_weight_charge_per_kg 
+    : 0;
   
   // Apply 50% discount on shipping and overweight fee if ground floor pickup is selected
   if (groundFloorPickup) {
@@ -296,6 +330,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
 interface CartContextType {
   state: CartState;
+  settings: DeliverySettings;
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, change: number) => void;
@@ -361,7 +396,25 @@ const loadFromLocalStorage = (): Partial<CartState> => {
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [settings, setSettings] = useState<DeliverySettings>(DEFAULT_SETTINGS);
   
+  // Fetch delivery settings from DB on mount
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.delivery_cost_under_100 !== undefined) {
+          currentSettings = data;
+          setSettings(data);
+          // Recalculate totals with new settings
+          if (state.items.length > 0) {
+            dispatch({ type: 'UPDATE_CHECKOUT_FORM', payload: {} });
+          }
+        }
+      })
+      .catch(err => console.error('Failed to fetch delivery settings:', err));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Load from localStorage after hydration
   useEffect(() => {
     const savedData = loadFromLocalStorage();
@@ -519,6 +572,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   return (
     <CartContext.Provider value={{
       state,
+      settings,
       addItem,
       removeItem,
       updateQuantity,

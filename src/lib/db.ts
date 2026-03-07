@@ -10,7 +10,10 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   maxIdle: 10,
   idleTimeout: 60000,
-  queueLimit: 0
+  queueLimit: 0,
+  connectTimeout: 30000,       // 30s connect timeout
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 10000, // keep-alive after 10s idle
 });
 // Database connection retry utility
 export async function executeWithRetry<T>(
@@ -2022,6 +2025,51 @@ export class AreaService {
         'SELECT id, name, status FROM af_areas ORDER BY name ASC'
       );
       return rows as { id: number; name: string; status: number }[];
+    } finally {
+      connection.release();
+    }
+  }
+}
+
+// ==================== Settings Service ====================
+export interface DeliverySettings {
+  delivery_cost_under_100: number;
+  delivery_cost_100_to_200: number;
+  delivery_cost_over_200: number;
+  free_delivery_threshold: number;
+  standard_shipping_weight_limit: number;
+  extra_weight_charge_per_kg: number;
+  cod_fee: number;
+  card_fee: number;
+}
+
+export class SettingsService {
+  static async getDeliverySettings(): Promise<DeliverySettings> {
+    const connection = await pool.getConnection();
+    try {
+      const [rows] = await connection.execute<RowDataPacket[]>(
+        "SELECT setting_key, setting_value FROM af_settings WHERE setting_key IN ('delivery_cost_under_100', 'delivery_cost_100_to_200', 'delivery_cost_over_200', 'free_delivery_threshold', 'standard_shipping_weight_limit', 'extra_weight_charge_per_kg', 'cod_fee', 'card_fee')"
+      );
+      
+      const defaults: DeliverySettings = {
+        delivery_cost_under_100: 10,
+        delivery_cost_100_to_200: 4,
+        delivery_cost_over_200: 0,
+        free_delivery_threshold: 201,
+        standard_shipping_weight_limit: 8,
+        extra_weight_charge_per_kg: 1,
+        cod_fee: 2.5,
+        card_fee: 1,
+      };
+
+      for (const row of rows as { setting_key: string; setting_value: string }[]) {
+        const key = row.setting_key as keyof DeliverySettings;
+        if (key in defaults) {
+          defaults[key] = parseFloat(row.setting_value) || defaults[key];
+        }
+      }
+
+      return defaults;
     } finally {
       connection.release();
     }
