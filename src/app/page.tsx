@@ -57,6 +57,7 @@ interface CollectionItem {
   originalPrice?: number;
   rewardPoints: number;
   weight?: number;
+  product_unit?: string;
   product_url?: string;
   imageUrl?: string;
   is_parent?: number;
@@ -240,6 +241,7 @@ export default function Home() {
                     : parseFloat(product.price.toString())
                 ),
                 weight: product.product_unit ? parseFloat(product.product_unit) : 0,
+                product_unit: product.product_unit,
                 product_url: product.product_url,
                 imageUrl: imageUrl,
                 is_parent: product.is_parent,
@@ -448,6 +450,7 @@ export default function Home() {
                       product_url={item.product_url}
                       is_parent={item.is_parent}
                       dubai_only={item.dubai_only}
+                      product_unit={item.product_unit}
                       onProductClick={() => handleProductNavigation(item)}
                     />
                   ))}

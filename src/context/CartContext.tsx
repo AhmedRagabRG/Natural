@@ -91,7 +91,9 @@ type CartAction =
   | { type: 'UNDO_REDEEM_POINTS'; payload: { points: number; value: number } }
   | { type: 'TOGGLE_CHECKOUT_MODAL'; payload?: boolean }
   | { type: 'SET_CHECKOUT_STEP'; payload: number }
-  | { type: 'UPDATE_CHECKOUT_FORM'; payload: Partial<CheckoutForm> };
+  | { type: 'UPDATE_CHECKOUT_FORM'; payload: Partial<CheckoutForm> }
+  | { type: 'LOAD_CART'; payload: { items: CartItem[]; discount: number; rewardPoints: number; rewardValue: number } }
+  | { type: 'RECALCULATE_TOTALS' };
 
 const initialState: CartState = {
   items: [],
@@ -322,6 +324,24 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
       return newState;
     }
+
+    case 'LOAD_CART': {
+      const { items, discount, rewardPoints, rewardValue } = action.payload;
+      const totals = calculateTotals(items, discount, state.checkout.form.groundFloorPickup);
+      return {
+        ...state,
+        items,
+        discount,
+        rewardPoints: discount > 0 ? 0 : rewardPoints,
+        rewardValue: discount > 0 ? 0 : rewardValue,
+        ...totals,
+      };
+    }
+
+    case 'RECALCULATE_TOTALS': {
+      const totals = calculateTotals(state.items, state.discount, state.checkout.form.groundFloorPickup);
+      return { ...state, ...totals };
+    }
     
     default:
       return state;
@@ -407,9 +427,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           currentSettings = data;
           setSettings(data);
           // Recalculate totals with new settings
-          if (state.items.length > 0) {
-            dispatch({ type: 'UPDATE_CHECKOUT_FORM', payload: {} });
-          }
+          dispatch({ type: 'RECALCULATE_TOTALS' });
         }
       })
       .catch(err => console.error('Failed to fetch delivery settings:', err));
@@ -419,15 +437,16 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const savedData = loadFromLocalStorage();
     if (savedData.items && savedData.items.length > 0) {
-      // Dispatch action to load saved items
-      savedData.items.forEach(item => {
-        dispatch({ type: 'ADD_ITEM', payload: item });
+      // Use LOAD_CART to restore items with correct quantities
+      dispatch({
+        type: 'LOAD_CART',
+        payload: {
+          items: savedData.items as CartItem[],
+          discount: savedData.discount || 0,
+          rewardPoints: savedData.rewardPoints || 0,
+          rewardValue: savedData.rewardValue || 0,
+        },
       });
-      
-      // Restore other saved data
-      if (savedData.discount) {
-        dispatch({ type: 'REDEEM_POINTS', payload: { points: savedData.rewardPoints || 0, value: savedData.discount } });
-      }
     }
     setIsHydrated(true);
   }, []);

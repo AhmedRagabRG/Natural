@@ -1,0 +1,216 @@
+[     376ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[     378ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[     694ms] [ERROR] %c%s%c Error generating category metadata: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   Error: Unknown column 'description' in 'field list'
+    at Module.generateMetadata (about://React/Server/webpack-internal:///(rsc)/./src/app/category/%5Bcategory_url%5D/layout.tsx?14:11:78)
+    at resolveErrorDev (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2335:46)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1697:22)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1898:15)
+    at Object.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1632:11)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1991:15)
+    at Array.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at resolveConsoleEntry (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2622:13)
+    at processFullStringRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2862:11)
+    at processFullBinaryRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2764:7)
+    at processBinaryChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2967:15)
+    at progress (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3231:13) @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[     807ms] TypeError: Cannot read properties of null (reading 'addEventListener')
+    at <anonymous>:1:36
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:882:429
+    at hR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:884:31)
+    at Od.gR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:881:92)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:308:187)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at jb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:196:527)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:258:473)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at k.qq (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:199:117)
+    at yf (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:269:960)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:754:315
+    at xg (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:289:477)
+    at e (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:230)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:203:125
+    at Array.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:414)
+    at Object.execute (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:154)
+    at $A (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:874)
+    at dB (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:699:117)
+    at wC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:727:327)
+    at yC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:729:47)
+[     807ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[     808ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[    1658ms] [WARNING] Image with src "https://dashboard.naturalspicesuae.com/uploads/products/thumbnail/174318046782-80a8ta8t822aa8Aa0.08" was detected as the Largest Contentful Paint (LCP). Please add the "priority" property if this image is above the fold.
+Read more: https://nextjs.org/docs/api-reference/next/image#priority @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15
+[   81626ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:111
+[   82094ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[   82094ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[   82444ms] [ERROR] %c%s%c Error generating category metadata: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   Error: Unknown column 'description' in 'field list'
+    at Module.generateMetadata (about://React/Server/webpack-internal:///(rsc)/./src/app/category/%5Bcategory_url%5D/layout.tsx?14:11:78)
+    at resolveErrorDev (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2335:46)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1697:22)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1898:15)
+    at Object.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1632:11)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1991:15)
+    at Array.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at resolveConsoleEntry (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2622:13)
+    at processFullStringRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2862:11)
+    at processFullBinaryRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2764:7)
+    at processBinaryChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2967:15)
+    at progress (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3231:13) @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[   82537ms] TypeError: Cannot read properties of null (reading 'addEventListener')
+    at <anonymous>:1:36
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:882:429
+    at hR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:884:31)
+    at Od.gR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:881:92)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:308:187)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at jb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:196:527)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:258:473)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at k.qq (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:199:117)
+    at yf (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:269:960)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:754:315
+    at xg (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:289:477)
+    at e (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:230)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:203:125
+    at Array.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:414)
+    at Object.execute (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:154)
+    at $A (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:874)
+    at dB (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:699:117)
+    at wC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:727:327)
+    at yC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:729:47)
+[   82504ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[   82505ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[   83699ms] [WARNING] Image with src "https://dashboard.naturalspicesuae.com/uploads/products/thumbnail/174318046782-80a8ta8t822aa8Aa0.08" was detected as the Largest Contentful Paint (LCP). Please add the "priority" property if this image is above the fold.
+Read more: https://nextjs.org/docs/api-reference/next/image#priority @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15
+[  102340ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:111
+[  102766ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  102767ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  103173ms] [ERROR] %c%s%c Error generating category metadata: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   Error: Unknown column 'description' in 'field list'
+    at Module.generateMetadata (about://React/Server/webpack-internal:///(rsc)/./src/app/category/%5Bcategory_url%5D/layout.tsx?14:11:78)
+    at resolveErrorDev (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2335:46)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1697:22)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1898:15)
+    at Object.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1632:11)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1991:15)
+    at Array.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at resolveConsoleEntry (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2622:13)
+    at processFullStringRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2862:11)
+    at processFullBinaryRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2764:7)
+    at processBinaryChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2967:15)
+    at progress (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3231:13) @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  103268ms] TypeError: Cannot read properties of null (reading 'addEventListener')
+    at <anonymous>:1:36
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:882:429
+    at hR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:884:31)
+    at Od.gR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:881:92)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:308:187)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at jb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:196:527)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:258:473)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at k.qq (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:199:117)
+    at yf (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:269:960)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:754:315
+    at xg (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:289:477)
+    at e (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:230)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:203:125
+    at Array.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:414)
+    at Object.execute (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:154)
+    at $A (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:874)
+    at dB (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:699:117)
+    at wC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:727:327)
+    at yC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:729:47)
+[  103228ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[  103228ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[  104049ms] [WARNING] Image with src "https://dashboard.naturalspicesuae.com/uploads/products/thumbnail/174318046782-80a8ta8t822aa8Aa0.08" was detected as the Largest Contentful Paint (LCP). Please add the "priority" property if this image is above the fold.
+Read more: https://nextjs.org/docs/api-reference/next/image#priority @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15
+[  116974ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:111
+[  117275ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  117275ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  117599ms] [ERROR] %c%s%c Error generating category metadata: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   Error: Unknown column 'description' in 'field list'
+    at Module.generateMetadata (about://React/Server/webpack-internal:///(rsc)/./src/app/category/%5Bcategory_url%5D/layout.tsx?14:11:78)
+    at resolveErrorDev (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2335:46)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1697:22)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1898:15)
+    at Object.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at getOutlinedModel (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1632:11)
+    at parseModelString (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1991:15)
+    at Array.eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2994:18)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:1244:26)
+    at resolveConsoleEntry (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2622:13)
+    at processFullStringRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2862:11)
+    at processFullBinaryRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2764:7)
+    at processBinaryChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2967:15)
+    at progress (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3231:13) @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  117705ms] TypeError: Cannot read properties of null (reading 'addEventListener')
+    at <anonymous>:1:36
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:882:429
+    at hR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:884:31)
+    at Od.gR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:881:92)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:308:187)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at jb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:196:527)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:258:473)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at k.qq (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:199:117)
+    at yf (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:269:960)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:754:315
+    at xg (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:289:477)
+    at e (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:230)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:203:125
+    at Array.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:414)
+    at Object.execute (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:154)
+    at $A (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:874)
+    at dB (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:699:117)
+    at wC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:727:327)
+    at yC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:729:47)
+[  117661ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[  117661ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[  118531ms] [WARNING] Image with src "https://dashboard.naturalspicesuae.com/uploads/products/thumbnail/174318046782-80a8ta8t822aa8Aa0.08" was detected as the Largest Contentful Paint (LCP). Please add the "priority" property if this image is above the fold.
+Read more: https://nextjs.org/docs/api-reference/next/image#priority @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15

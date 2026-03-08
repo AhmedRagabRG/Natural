@@ -69,6 +69,7 @@ interface RecentProduct {
   imageUrl?: string;
   is_parent?: number;
   dubai_only?: number;
+  product_unit?: string;
 }
 
 const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) => {
@@ -225,7 +226,8 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
                 product_url: product.product_url,
                 imageUrl,
                 is_parent: product.is_parent,
-                dubai_only: product.dubai_only
+                dubai_only: product.dubai_only,
+                product_unit: product.product_unit
               };
             })
         );
@@ -268,7 +270,8 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
                 product_url: product.product_url,
                 imageUrl,
                 is_parent: product.is_parent,
-                dubai_only: product.dubai_only
+                dubai_only: product.dubai_only,
+                product_unit: product.product_unit
               };
             })
         );
@@ -646,6 +649,7 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
                 product_url={recentProduct.product_url}
                 is_parent={recentProduct.is_parent}
                 dubai_only={recentProduct.dubai_only}
+                product_unit={recentProduct.product_unit}
               />
             ))
           )}
@@ -684,6 +688,7 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
                 product_url={topSeller.product_url}
                 is_parent={topSeller.is_parent}
                 dubai_only={topSeller.dubai_only}
+                product_unit={topSeller.product_unit}
               />
             ))
           )}

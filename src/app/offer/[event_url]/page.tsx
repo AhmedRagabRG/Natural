@@ -418,6 +418,7 @@ export default function OfferPage() {
                     product_url={product.product_url}
                     is_parent={product.is_parent}
                     dubai_only={product.dubai_only}
+                    product_unit={product.product_unit}
                     onProductClick={() => handleProductNavigation(product)}
                   />
                 ))}

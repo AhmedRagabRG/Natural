@@ -1,0 +1,30 @@
+[     240ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[     241ms] [ERROR] SSE connection error: Event @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[     758ms] TypeError: Cannot read properties of null (reading 'addEventListener')
+    at <anonymous>:1:36
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:882:429
+    at hR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:884:31)
+    at Od.gR (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:881:92)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:308:187)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at jb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:196:527)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:258:473)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:234:466)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:197:209)
+    at k.qq (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:199:117)
+    at yf (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:269:960)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:754:315
+    at xg (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:289:477)
+    at e (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:693:230)
+    at https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:203:125
+    at Array.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:414)
+    at Object.execute (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:154)
+    at $A (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:694:874)
+    at dB (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:699:117)
+    at wC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:727:327)
+    at yC (https://www.googletagmanager.com/gtm.js?id=GTM-WQSRD52:729:47)
+[     751ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[     751ms] [WARNING] [Meta pixel] 1138245426635278 is unavailable on this website due to it's traffic permission settings. Go to https://www.facebook.com/business/help/572690630080597 to learn more. @ https://connect.facebook.net/en_US/fbevents.js:175
+[    1761ms] [WARNING] Image with src "https://dashboard.naturalspicesuae.com/uploads/category/12.png" was detected as the Largest Contentful Paint (LCP). Please add the "priority" property if this image is above the fold.
+Read more: https://nextjs.org/docs/api-reference/next/image#priority @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15
