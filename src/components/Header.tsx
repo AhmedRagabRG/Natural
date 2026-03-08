@@ -463,6 +463,8 @@ const Header: React.FC = () => {
                                   alt=""
                                   width={50}
                                   height={50}
+                                  quality={75}
+                                  sizes="50px"
                                   style={{
                                     borderRadius: "8px",
                                     objectFit: "cover",
@@ -866,6 +868,8 @@ const Header: React.FC = () => {
                           alt=""
                           width={50}
                           height={50}
+                          quality={75}
+                          sizes="50px"
                           style={{
                             borderRadius: "8px",
                             objectFit: "cover",

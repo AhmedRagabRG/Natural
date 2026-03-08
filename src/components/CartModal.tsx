@@ -134,6 +134,7 @@ const CartModal: React.FC = () => {
                         src={item.image || '/assets/du.png'} 
                         alt={item.name}
                         fill
+                        quality={75}
                         style={{
                           objectFit: 'cover',
                           borderRadius: '8px'

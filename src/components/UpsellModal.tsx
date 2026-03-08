@@ -221,6 +221,8 @@ const UpsellModal: React.FC<UpsellModalProps> = ({ isOpen, items, onConfirm, onS
                       alt={item.name}
                       width={48}
                       height={48}
+                      quality={75}
+                      sizes="48px"
                       style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                     />
                   ) : (

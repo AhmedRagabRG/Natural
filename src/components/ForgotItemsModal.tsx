@@ -334,6 +334,8 @@ export const ForgotItemsModal: React.FC<ForgotItemsModalProps> = ({
                         alt=""
                         width={50}
                         height={50}
+                        quality={75}
+                        sizes="50px"
                         style={{
                           borderRadius: "8px",
                           objectFit: "cover",

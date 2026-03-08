@@ -285,6 +285,8 @@ export default function OfferPage() {
                   alt={currentEvent.name}
                   width={1200}
                   height={350}
+                  quality={75}
+                  sizes="(max-width: 768px) 95vw, 1200px"
                   style={{
                     width: '100%',
                     height: 'auto',

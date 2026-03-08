@@ -382,6 +382,8 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
                     alt={`${product.name} - ${index + 1}`}
                     width={60}
                     height={60}
+                    quality={75}
+                    sizes="60px"
                     style={{ objectFit: 'cover', borderRadius: '6px', width: '100%', height: '100%' }}
                   />
                 </button>
@@ -401,6 +403,8 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
               alt={product.name}
               width={400}
               height={400}
+              quality={75}
+              sizes="(max-width: 768px) 90vw, 400px"
               style={{
                 width: "100%",
                 height: "100%",

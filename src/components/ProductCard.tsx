@@ -197,6 +197,8 @@ export default function ProductCard({
             alt={name}
             width={100}
             height={100}
+            quality={75}
+            sizes="(max-width: 480px) 45vw, (max-width: 768px) 25vw, 180px"
             style={{
               width: "100%",
               height: "100%",

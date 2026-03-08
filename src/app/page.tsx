@@ -299,6 +299,8 @@ export default function Home() {
                       alt={collection.title}
                       width={300}
                       height={200}
+                      quality={75}
+                      sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 200px"
                       className="category-image"
                       style={{
                         // width: '100%', 

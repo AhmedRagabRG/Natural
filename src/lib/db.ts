@@ -1907,7 +1907,7 @@ export class CategoryService {
             END
           )) as avg_discount
         FROM af_category c
-        LEFT JOIN af_products p ON p.category_id = c.id AND p.status = 'active'
+        LEFT JOIN af_products p ON p.category_id = c.id AND p.status = 1 AND (p.parent_product_id IS NULL OR p.parent_product_id = 0)
         WHERE c.status = 1
         GROUP BY c.id
         ORDER BY c.cat_priority ASC
