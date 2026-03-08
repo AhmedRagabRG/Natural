@@ -286,7 +286,7 @@ export default function Home() {
         {/* Collections Grid */}
         {!loading && (
           <div className="collections-grid">
-            {collections.map((collection) => (
+            {collections.map((collection, index) => (
               <div
                 key={collection.id}
                 data-collection-id={collection.id}
@@ -302,6 +302,9 @@ export default function Home() {
                       quality={75}
                       sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 200px"
                       className="category-image"
+                      {...(index < 2
+                        ? { priority: true, fetchPriority: 'high' as const, loading: 'eager' as const }
+                        : { loading: 'lazy' as const })}
                       style={{
                         // width: '100%', 
                         height: '100%',

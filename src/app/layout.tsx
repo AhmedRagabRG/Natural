@@ -126,7 +126,7 @@ export default function RootLayout({
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -168,6 +168,12 @@ export default function RootLayout({
         </noscript>
         {/* End Meta Pixel Code */}
         
+        {/* Preconnect to 3rd-party origins so their TCP/TLS is ready before scripts fire */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://connect.facebook.net" />
+        <link rel="preconnect" href="https://www.facebook.com" />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://dashboard.naturalspicesuae.com" />
         {/* Favicon */}
         <link
           rel="shortcut icon"
