@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/price';
+import './ProductCard.css';
 
 // Helper function to format weight display
 const formatWeight = (weight: string | number, unit?: string): string => {

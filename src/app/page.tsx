@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import "./page.css";
 import { useCart } from "../context/CartContext";
 import { useProduct } from "../context/ProductContext";
 import { formatPrice, calculateRewardPoints } from "../utils/price";

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import './Header.css';
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "../context/CartContext";

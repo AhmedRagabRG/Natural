@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import './page.css';
 
 const PrivacyPolicyPage: React.FC = () => {
   const handlePrint = () => {

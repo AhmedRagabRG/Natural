@@ -1,0 +1,179 @@
+/* ==================== Privacy Policy Styles ==================== */
+.privacy-policy {
+   max-width: 900px;
+   margin: 40px auto;
+   padding: 40px;
+   font-size: 16px;
+   line-height: 1.6;
+   color: #444;
+   background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.8)
+   );
+   border-radius: 15px;
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.privacy-policy h1 {
+   text-align: center;
+   margin-bottom: 40px;
+   font-size: 32px;
+   color: var(--color-green);
+   position: relative;
+   padding-bottom: 15px;
+}
+
+.privacy-policy h1::after {
+   content: "";
+   position: absolute;
+   bottom: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 80px;
+   height: 3px;
+   background: var(--color-yellow);
+}
+
+.privacy-policy h2 {
+   font-size: 22px;
+   margin: 35px 0 20px;
+   color: #125f83;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.privacy-policy h2::before {
+   content: "";
+   display: inline-block;
+   width: 4px;
+   height: 24px;
+   background: var(--color-yellow);
+   border-radius: 2px;
+}
+
+.privacy-policy p {
+   margin-bottom: 15px;
+   color: #555;
+}
+
+.privacy-policy ul {
+   margin: 0 0 20px 25px;
+   list-style: none;
+}
+
+.privacy-policy li {
+   margin-bottom: 10px;
+   position: relative;
+   padding-left: 20px;
+}
+
+.privacy-policy li::before {
+   content: "";
+   position: absolute;
+   left: 0;
+   top: 10px;
+   width: 6px;
+   height: 6px;
+   background: var(--color-green);
+   border-radius: 50%;
+}
+
+.last-updated {
+   margin-top: 50px;
+   padding-top: 20px;
+   border-top: 1px solid rgba(0, 0, 0, 0.1);
+   font-style: italic;
+   color: #666;
+   text-align: right;
+}
+
+.print-button {
+   position: fixed;
+   bottom: 30px;
+   right: 30px;
+   background: var(--color-green);
+   color: white;
+   border: none;
+   padding: 12px 24px;
+   font-size: 14px;
+   cursor: pointer;
+   border-radius: 25px;
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   transition: all 0.3s ease;
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+   z-index: 1000;
+}
+
+.print-button:hover {
+   background: #125f83;
+   transform: translateY(-2px);
+}
+
+.print-button i {
+   font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+   .privacy-policy {
+      margin: 20px;
+      padding: 25px;
+      font-size: 15px;
+   }
+
+   .privacy-policy h1 {
+      font-size: 26px;
+   }
+
+   .privacy-policy h2 {
+      font-size: 20px;
+   }
+
+   .print-button {
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+   }
+}
+
+/* Print Styles */
+@media print {
+   .print-button,
+   .whatsapp-float,
+   .top-bar,
+   .header-container,
+   .main-footer,
+   header,
+   footer,
+   .mobile-fixed-footer {
+      display: none !important;
+   }
+
+   .privacy-policy {
+      margin: 0;
+      padding: 20px;
+      background: none !important;
+      box-shadow: none !important;
+   }
+
+   .privacy-policy h1,
+   .privacy-policy h2 {
+      color: #000 !important;
+   }
+
+   .privacy-policy h2::before {
+      display: none !important;
+   }
+
+   .privacy-policy li::before {
+      background: #000 !important;
+   }
+
+   @page {
+      margin: 2cm;
+   }
+}

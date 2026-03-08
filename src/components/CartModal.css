@@ -1,0 +1,227 @@
+/* ==================== Cart Modal Styles ==================== */
+.cart-modal .modal-content {
+   max-width: 650px;
+}
+
+.cart-modal .cart-items {
+   margin: -8px -15px;
+   padding: 8px 15px;
+   max-height: 55vh;
+   overflow-y: auto;
+}
+
+.cart-modal .cart-item {
+   display: flex;
+   align-items: flex-start;
+   gap: 15px;
+   padding: 12px 0;
+   border-bottom: 1px solid #f1f1f1;
+}
+
+.cart-modal .cart-item:last-child {
+   border-bottom: none;
+}
+
+.cart-modal .cart-item-image {
+   width: 70px;
+   height: 70px;
+   border-radius: 8px;
+   overflow: hidden;
+   flex-shrink: 0;
+   background: #f8f9fa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.8rem;
+   color: var(--color-grey);
+}
+
+.cart-modal .cart-item-image img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+
+.cart-modal .cart-item-details {
+   flex: 1;
+}
+
+.cart-modal .cart-item-title {
+   font-weight: 600;
+   color: var(--color-black);
+   margin-bottom: 5px;
+   font-size: 1.1rem;
+   margin-top: 0;
+}
+
+.cart-modal .cart-item-price {
+   color: var(--color-green);
+   font-weight: 600;
+   font-size: 1.1rem;
+}
+
+.cart-modal .cart-item-actions {
+   display: flex;
+   align-items: center;
+   gap: 15px;
+}
+
+.cart-modal .quantity-controls {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   background: #f8f9fa;
+   padding: 5px 10px;
+   border-radius: 20px;
+}
+
+.cart-modal .quantity-btn {
+   background: none;
+   border: none;
+   width: 24px;
+   height: 24px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1rem;
+   cursor: pointer;
+   color: var(--color-black);
+   transition: all 0.2s ease;
+}
+
+.cart-modal .quantity-btn:hover {
+   color: var(--color-green);
+   transform: scale(1.1);
+}
+
+.cart-modal .quantity-value {
+   font-weight: 600;
+   min-width: 30px;
+   text-align: center;
+}
+
+.cart-modal .remove-item {
+   background: none;
+   border: none;
+   color: #e74c3c;
+   cursor: pointer;
+   padding: 5px;
+   transition: all 0.2s ease;
+}
+
+.cart-modal .cart-summary {
+   background: #f8f9fa;
+   padding: 20px;
+   border-radius: 15px;
+   margin-top: 20px;
+}
+
+.cart-modal .cart-total {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: 1.2rem;
+   font-weight: 600;
+   color: var(--color-black);
+   margin-bottom: 15px;
+}
+
+.cart-modal .empty-cart {
+   text-align: center;
+   padding: 40px 20px;
+   color: var(--color-grey);
+}
+
+.cart-modal .empty-cart i {
+   font-size: 4rem;
+   margin-bottom: 20px;
+   opacity: 0.5;
+}
+
+.cart-modal .empty-cart p {
+   font-size: 1.1rem;
+   margin-bottom: 20px;
+}
+
+.cart-modal .modal-footer .cart-actions {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 10px;
+}
+
+/* Cart reward points */
+.cart-summary .reward-points {
+   width: 100%;
+   justify-content: center;
+   margin-top: 16px;
+   padding: 8px;
+   font-size: 0.9em;
+   background: rgba(var(--color-yellow-rgb), 0.15);
+}
+
+/* Cart item prices */
+.cart-item-prices {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.cart-item-original-price {
+   text-decoration: line-through;
+   color: var(--color-grey);
+   font-size: 0.9em;
+}
+
+.cart-item-discount {
+   display: flex;
+   width: fit-content;
+   align-items: baseline;
+   gap: 5px;
+   color: var(--color-yellow);
+   font-size: 0.85em;
+   background: rgba(var(--color-yellow-rgb), 0.1);
+   padding: 3px 7px;
+   border-radius: 4px;
+   margin: 5px 0;
+}
+
+.cart-item-discount i {
+   font-size: 0.9em;
+}
+
+/* Responsive cart modal */
+@media (max-width: 768px) {
+   .cart-modal .modal-content {
+      width: 95%;
+      margin: 10px;
+      padding: 15px;
+   }
+
+   .cart-modal .cart-item {
+      gap: 15px;
+   }
+
+   .cart-modal .cart-item-image {
+      width: 60px;
+      height: 60px;
+   }
+
+   .cart-modal .cart-item-title {
+      font-size: 1rem;
+   }
+
+   .cart-modal .cart-item-actions {
+      flex-direction: row;
+      gap: 10px;
+   }
+
+   .cart-modal .quantity-controls {
+      padding: 3px 8px;
+   }
+
+   .cart-modal .quantity-btn {
+      width: 20px;
+      height: 20px;
+   }
+}

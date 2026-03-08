@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import './Footer.css';
 
 interface Offer {
   id: number;

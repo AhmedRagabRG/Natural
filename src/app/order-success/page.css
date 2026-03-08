@@ -538,3 +538,163 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Generic Get Extra Discount Base Styles */
+.get-extra-discount {
+   background: linear-gradient(145deg, rgba(var(--color-green-rgb), 0.1), rgba(var(--color-yellow-rgb), 0.1));
+   border: 1px solid rgba(var(--color-green-rgb), 0.2);
+   border-radius: 12px;
+   padding: 20px;
+   margin: 30px 0;
+}
+
+.get-extra-discount .section-header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 15px;
+   cursor: pointer;
+   padding-bottom: 15px;
+   border-bottom: 1px dashed rgba(var(--color-green-rgb), 0.2);
+}
+
+.get-extra-discount .section-header h3 {
+   margin: 0;
+   font-size: 1.2rem;
+   color: white;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.get-extra-discount .section-header i {
+   transition: transform 0.3s ease;
+}
+
+.get-extra-discount .section-header.open i {
+   transform: rotate(180deg);
+}
+
+.get-extra-discount .section-content {
+   padding-top: 20px;
+}
+
+.get-extra-discount .form-description {
+   margin-bottom: 20px;
+   color: var(--color-grey);
+   font-size: 0.9rem;
+   line-height: 1.5;
+}
+
+.get-extra-discount .referral-form {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+}
+
+.get-extra-discount .referral-group {
+   display: flex;
+   gap: 15px;
+   position: relative;
+   padding-left: 35px;
+}
+
+.get-extra-discount .referral-number {
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 25px;
+   height: 25px;
+   background: var(--color-green);
+   color: white;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-weight: bold;
+   font-size: 0.9rem;
+}
+
+.get-extra-discount .input-group {
+   flex: 1;
+}
+
+.get-extra-discount .input-group label {
+   display: block;
+   margin-bottom: 5px;
+}
+
+.get-extra-discount .input-group input {
+   width: 100%;
+}
+
+.get-extra-discount .form-actions {
+   display: flex;
+   justify-content: flex-end;
+   margin-top: 10px;
+}
+
+.get-extra-discount .error-message {
+   color: #e74c3c;
+   font-size: 0.85rem;
+   margin-top: 5px;
+   display: none;
+}
+
+.get-extra-discount .error-message.show {
+   display: block;
+}
+
+.get-extra-discount .success-message {
+   background: rgba(var(--color-green-rgb), 0.1);
+   color: var(--color-green);
+   padding: 15px;
+   border-radius: 8px;
+   font-size: 0.95rem;
+   margin: 20px 0;
+   text-align: center;
+   border: 1px solid rgba(var(--color-green-rgb), 0.2);
+   display: none;
+}
+
+.get-extra-discount .success-message.show {
+   display: block;
+   animation: fadeInScale 0.3s ease-out;
+}
+
+@keyframes fadeInScale {
+   from {
+      opacity: 0;
+      transform: scale(0.95);
+   }
+   to {
+      opacity: 1;
+      transform: scale(1);
+   }
+}
+
+@media (max-width: 768px) {
+   .get-extra-discount {
+      padding: 15px;
+   }
+
+   .get-extra-discount .section-header h3 {
+      font-size: 1.1rem;
+   }
+
+   .get-extra-discount .referral-group {
+      flex-direction: column;
+      gap: 10px;
+      padding-left: 35px;
+   }
+
+   .get-extra-discount .referral-number {
+      top: 0;
+      transform: none;
+   }
+
+   .get-extra-discount .form-actions {
+      margin-top: 15px;
+   }
+}

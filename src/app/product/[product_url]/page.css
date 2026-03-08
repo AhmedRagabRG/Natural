@@ -502,3 +502,85 @@
             padding: 12px 24px;
             font-size: 1.1rem;
          }
+
+/* Hot Selling Items Section */
+.hot-selling-items-section {
+   margin: 40px 0;
+   padding: 30px;
+   background: white;
+   border-radius: 16px;
+   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.hot-selling-items-section .section-header {
+   margin-bottom: 30px;
+   text-align: center;
+}
+
+.hot-selling-items-section .section-header h2 {
+   color: var(--color-black);
+   font-size: 1.8rem;
+   margin-bottom: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+}
+
+.hot-selling-items-section .section-header p {
+   color: var(--color-grey);
+   font-size: 1rem;
+}
+
+.hot-selling-items-section .products-grid {
+   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   gap: 20px;
+}
+
+@media (max-width: 768px) {
+   .hot-selling-items-section {
+      padding: 20px;
+      margin: 20px 0;
+   }
+
+   .hot-selling-items-section .section-header h2 {
+      font-size: 1.5rem;
+   }
+
+   .hot-selling-items-section .section-header p {
+      font-size: 0.9rem;
+   }
+
+   .hot-selling-items-section .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+   }
+}
+
+.product-title-container .product-title {
+   margin: 0 !important;
+}
+
+.product-title-container .product-title:first-of-type {
+   margin-top: 3px !important;
+}
+
+.product-earn-points {
+   margin: 8px 0;
+   font-size: 0.9rem;
+   display: flex;
+   justify-content: center;
+   margin-top: 0;
+}
+
+.product-earn-points .reward-points {
+   display: inline-flex;
+   align-items: center;
+   gap: 4px;
+   color: var(--color-green);
+   font-weight: 500;
+}
+
+.product-earn-points .reward-points i {
+   color: var(--color-yellow);
+}

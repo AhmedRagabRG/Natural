@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/price';
+import './CartModal.css';
 
 const CartModal: React.FC = () => {
   const { state, removeItem, updateQuantity, clearCart, toggleModal, toggleCheckoutModal } = useCart();
