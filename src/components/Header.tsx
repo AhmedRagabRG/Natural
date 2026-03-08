@@ -6,9 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "../context/CartContext";
 import { useProduct } from "../context/ProductContext";
+import { useOffers } from "../context/OffersContext";
+import { useSharedProductUpdates } from "../context/ProductUpdatesContext";
 import { formatPrice, calculateRewardPoints } from "../utils/price";
 import { cache, CACHE_KEYS } from "../utils/cache";
-import { useProductUpdates } from "../hooks/useProductUpdates";
 import { getFirstImageUrl } from "../utils/imageUtils";
 
 interface Product {
@@ -44,16 +45,15 @@ const Header: React.FC = () => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [offersLoading, setOffersLoading] = useState(false);
+  const { offers, loading: offersLoading } = useOffers();
   const [productsLoading, setProductsLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
   const [isMobileViewport, setIsMobileViewport] = useState(false);
 
-  // Use product updates hook for real-time updates
-  const { isConnected } = useProductUpdates({
+  // Use shared product updates for real-time updates (single SSE connection)
+  const { isConnected } = useSharedProductUpdates({
     onUpdate: (event) => {
       // Re-search if there's an active search query
       if (searchQuery && (event.type === 'product_updated' || event.type === 'product_created' || event.type === 'product_deleted')) {
@@ -294,6 +294,10 @@ const Header: React.FC = () => {
 
   const handleSearchFocus = () => {
     setShowDropdown(true);
+    // Lazy-load products on first search focus
+    if (allProducts.length === 0 && !productsLoading) {
+      fetchAllProducts();
+    }
   };
 
   // Keep mobile dropdown full-width and anchored under the input
@@ -372,32 +376,6 @@ const Header: React.FC = () => {
     });
   };
 
-  // Fetch offers from API
-  const fetchOffers = async () => {
-    setOffersLoading(true);
-    try {
-      const response = await fetch("/api/events");
-      const data = await response.json();
-
-      if (data.success && data.data) {
-        // Handle different API response structures
-        const events = Array.isArray(data.data)
-          ? data.data
-          : data.data.events || [];
-        // Filter only active offers (status = 1)
-        const activeOffers = events.filter(
-          (offer: Offer) => offer.status === 1
-        );
-        setOffers(activeOffers);
-      }
-    } catch (error) {
-      console.error("Error fetching offers:", error);
-      setOffers([]);
-    } finally {
-      setOffersLoading(false);
-    }
-  };
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -413,12 +391,6 @@ const Header: React.FC = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-
-  // Fetch offers and products on component mount
-  useEffect(() => {
-    fetchOffers();
-    fetchAllProducts();
   }, []);
 
   return (

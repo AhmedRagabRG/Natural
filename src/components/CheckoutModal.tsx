@@ -65,17 +65,20 @@ const CheckoutModal: React.FC = () => {
   });
   const [pendingCity, setPendingCity] = useState<string>('');
 
-  // Dynamic cities from database
+  // Dynamic cities from database — lazy-loaded when checkout opens
   const [cities, setCities] = useState<{ id: number; name: string }[]>([]);
+  const [citiesLoaded, setCitiesLoaded] = useState(false);
 
   useEffect(() => {
+    if (!state.checkout.showModal || citiesLoaded) return;
     fetch('/api/areas')
       .then(res => res.json())
       .then(data => {
         if (data.areas) setCities(data.areas);
+        setCitiesLoaded(true);
       })
       .catch(err => console.error('Failed to fetch cities:', err));
-  }, []);
+  }, [state.checkout.showModal, citiesLoaded]);
 
   // Check if any item in cart is Dubai only
   const hasDubaiOnlyItems = React.useMemo(() => {

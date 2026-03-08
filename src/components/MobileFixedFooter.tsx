@@ -3,44 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '../context/CartContext';
-
-interface Offer {
-  id: number;
-  name: string;
-  event_url: string;
-  status: number;
-  created_at: number;
-}
+import { useOffers } from '../context/OffersContext';
 
 const MobileFixedFooter: React.FC = () => {
   const { state, toggleCheckoutModal } = useCart();
   const [isMobile, setIsMobile] = useState(false);
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [offersLoading, setOffersLoading] = useState(false);
-
-  // Fetch offers from API
-  const fetchOffers = async () => {
-    setOffersLoading(true);
-    try {
-      const response = await fetch('/api/events');
-      const data = await response.json();
-      
-      if (data.success && data.data) {
-        // Handle different API response structures
-        const events = Array.isArray(data.data)
-          ? data.data
-          : data.data.events || [];
-        // Filter only active offers (status = 1)
-        const activeOffers = events.filter((offer: Offer) => offer.status === 1);
-        setOffers(activeOffers);
-      }
-    } catch (error) {
-      console.error('Error fetching offers:', error);
-      setOffers([]);
-    } finally {
-      setOffersLoading(false);
-    }
-  };
+  const { offers, loading: offersLoading } = useOffers();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -51,11 +19,6 @@ const MobileFixedFooter: React.FC = () => {
     window.addEventListener('resize', checkMobile);
     
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Fetch offers on component mount
-  useEffect(() => {
-    fetchOffers();
   }, []);
   
   return (

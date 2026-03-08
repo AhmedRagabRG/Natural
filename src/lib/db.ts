@@ -1897,7 +1897,15 @@ export class CategoryService {
     
     try {
       const query = `
-        SELECT c.*, COUNT(p.product_id) as product_count
+        SELECT c.*, 
+          COUNT(p.product_id) as product_count,
+          ROUND(AVG(
+            CASE 
+              WHEN p.special_price IS NOT NULL AND p.special_price > 0 AND p.special_price < p.price 
+              THEN ROUND((1 - p.special_price / p.price) * 100)
+              ELSE NULL 
+            END
+          )) as avg_discount
         FROM af_category c
         LEFT JOIN af_products p ON p.category = c.name AND p.status = 'active'
         WHERE c.status = 1
@@ -1906,7 +1914,7 @@ export class CategoryService {
       `;
       
       const [rows] = await connection.execute(query);
-      return rows as (Category & { product_count: number })[];
+      return rows as (Category & { product_count: number; avg_discount: number | null })[];
     } finally {
       connection.release();
     }

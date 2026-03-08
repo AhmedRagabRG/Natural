@@ -4,6 +4,8 @@ import "./base.css";
 import "./flex-grids.min.css";
 import { CartProvider } from "../context/CartContext";
 import { ProductProvider } from "../context/ProductContext";
+import { OffersProvider } from "../context/OffersContext";
+import { ProductUpdatesProvider } from "../context/ProductUpdatesContext";
 import { TopBar, Header, Footer, MobileFixedFooter, CartModal } from "../components";
 import CheckoutModal from "../components/CheckoutModal";
 import Script from "next/script";
@@ -207,12 +209,16 @@ export default function RootLayout({
         {/* End Google Tag Manager (noscript) */}
         <CartProvider>
           <ProductProvider>
+            <OffersProvider>
+            <ProductUpdatesProvider>
             <TopBar />
             <LayoutContent>{children}</LayoutContent>
             <Footer />
             <MobileFixedFooter />
             <CartModal />
             <CheckoutModal />
+            </ProductUpdatesProvider>
+            </OffersProvider>
           </ProductProvider>
         </CartProvider>
       </body>

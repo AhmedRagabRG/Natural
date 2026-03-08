@@ -3,7 +3,7 @@ import { CategoryService } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
-    const categories = await CategoryService.getCategoriesForHomepage();
+    const categories = await CategoryService.getCategoriesWithProductCount();
 
     return NextResponse.json({
       success: true,

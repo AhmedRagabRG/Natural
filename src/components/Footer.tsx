@@ -1,51 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import './Footer.css';
-
-interface Offer {
-  id: number;
-  name: string;
-  event_url: string;
-  status: number;
-  created_at: number;
-}
+import { useOffers } from '../context/OffersContext';
 
 const Footer: React.FC = () => {
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [offersLoading, setOffersLoading] = useState(false);
-
-  // Fetch offers from API
-  const fetchOffers = async () => {
-    setOffersLoading(true);
-    try {
-      const response = await fetch("/api/events");
-      const data = await response.json();
-
-      if (data.success && data.data) {
-        // Handle different API response structures
-        const events = Array.isArray(data.data)
-          ? data.data
-          : data.data.events || [];
-        // Filter only active offers (status = 1)
-        const activeOffers = events.filter(
-          (offer: Offer) => offer.status === 1
-        );
-        setOffers(activeOffers);
-      }
-    } catch (error) {
-      console.error("Error fetching offers:", error);
-      setOffers([]);
-    } finally {
-      setOffersLoading(false);
-    }
-  };
-
-  // Fetch offers on component mount
-  useEffect(() => {
-    fetchOffers();
-  }, []);
+  const { offers } = useOffers();
 
   return (
     <footer className="main-footer">

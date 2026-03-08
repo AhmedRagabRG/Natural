@@ -6,7 +6,7 @@ import { useCart } from "../context/CartContext";
 import { useProduct } from "../context/ProductContext";
 import { formatPrice, calculateRewardPoints } from "../utils/price";
 import { getFirstImageUrl } from "../utils/imageUtils";
-import { useProductUpdates } from "../hooks/useProductUpdates";
+import { useSharedProductUpdates } from "../context/ProductUpdatesContext";
 import { gtmViewItemList } from "../utils/gtm";
 import { ProductCard } from "../components";
 import Link from "next/link";
@@ -74,8 +74,8 @@ export default function Home() {
   const { state } = useCart();
   const { setProduct } = useProduct();
 
-  // Use product updates hook for real-time updates
-  const { isConnected, lastUpdate } = useProductUpdates({
+  // Use shared product updates for real-time updates (single SSE connection)
+  const { isConnected, lastUpdate } = useSharedProductUpdates({
     onUpdate: (event) => {
       console.log('Product update received:', event);
       // Reload collections when products are updated
@@ -111,27 +111,31 @@ export default function Home() {
   const loadCollections = async () => {
     setLoading(true);
     try {
-      // Fetch only categories from API (without products)
+      // Fetch categories with product counts and avg discount in a single query
       const categoriesResponse = await fetch(
-        "/api/category?status=active"
+        "/api/category/with-product-count"
       );
       const categoriesData = await categoriesResponse.json();
 
-      // Transform categories to collections format (without loading products yet)
-      const collectionsData = (categoriesData.data || []).map(
-        (category: Category) => {
+      // Transform categories to collections format with counts already included
+      const collectionsData: Collection[] = (categoriesData.data || []).map(
+        (category: Category & { product_count?: number; avg_discount?: number | null }) => {
           // Create image URL using category ID and file extension
           const imageUrl = category.file_extension
             ? `https://dashboard.naturalspicesuae.com/uploads/category/${category.id}.${category.file_extension}`
             : null;
 
+          const avgDiscount = category.avg_discount && category.avg_discount > 0
+            ? `${category.avg_discount}%`
+            : "";
+
           return {
             id: category.id.toString(),
             title: category.name,
             subtitle: category.description || "Natural Products",
-            icon: "🌿", // Keep as fallback
-            discount: "",
-            itemCount: 0,
+            icon: "🌿",
+            discount: avgDiscount,
+            itemCount: category.product_count || 0,
             items: [],
             category_url: category.category_url,
             imageUrl: imageUrl,
@@ -139,52 +143,11 @@ export default function Home() {
         }
       );
 
-      // Fetch item counts and calculate real discount for each collection
-      const collectionsWithCounts: Collection[] = await Promise.all(
-        collectionsData.map(async (col: Collection) => {
-          try {
-            const productsResponse = await fetch(
-              `/api/products?category_id=${col.id}&status=active`
-            );
-            const productsData = await productsResponse.json();
-
-            const products = productsData.data && productsData.data.products
-              ? productsData.data.products
-              : [];
-
-            const count = products.length;
-
-            // Calculate average discount percentage for this category
-            let totalDiscount = 0;
-            let discountedProductsCount = 0;
-
-            products.forEach((product: Product) => {
-              if (product.special_price && product.special_price > 0 && product.special_price < product.price) {
-                const discountPercentage = Math.round((1 - product.special_price / product.price) * 100);
-                totalDiscount += discountPercentage;
-                discountedProductsCount++;
-              }
-            });
-
-            const averageDiscount = discountedProductsCount > 0
-              ? Math.round(totalDiscount / discountedProductsCount)
-              : 0;
-
-            const discountText = averageDiscount > 0 ? `${averageDiscount}%` : "";
-
-            return { ...col, itemCount: count, discount: discountText };
-          } catch (e) {
-            console.error(`Error fetching count for category ${col.id}:`, e);
-            return { ...col, itemCount: 0, discount: "" };
-          }
-        })
-      );
-
-      setCollections(collectionsWithCounts);
+      setCollections(collectionsData);
 
       // Fire GTM view_item_list event for homepage collections
-      if (collectionsWithCounts.length > 0) {
-        const allProducts = collectionsWithCounts.reduce((acc: any[], collection: Collection) => {
+      if (collectionsData.length > 0) {
+        const allProducts = collectionsData.reduce((acc: any[], collection: Collection) => {
           const collectionProducts = collection.items.slice(0, 10).map((item: CollectionItem) => ({
             id: item.id,
             name: item.name,
