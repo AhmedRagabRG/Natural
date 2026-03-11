@@ -810,14 +810,14 @@ const CheckoutModal: React.FC = () => {
         contactNumber: state.checkout.form.mobile || 'N/A',
         whatsappNumber: state.checkout.form.whatsapp || state.checkout.form.mobile || 'N/A',
         subtotal: state.subtotal || 0,
-        discount: (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) + upsellDiscount,
+        discount: (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) + upsellDiscount + (state.checkout.form.groundFloorPickup ? state.shipping : 0),
         redeemAmount: isRedeemed ? (userRewardValue || 0) : 0,
         shipping: state.shipping || 0,
         overWeightFee: state.overWeightFee || 0,
         transactionFee: getPaymentMethodFee(),
         grandTotal: (state.subtotal || 0) + (state.shipping || 0) + (state.overWeightFee || 0) + getPaymentMethodFee() - 
           (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) - 
-          (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount,
+          (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount - (state.checkout.form.groundFloorPickup ? state.shipping : 0),
         items: state.items.map(item => ({
           name: item.name || 'Unknown Product',
           sku: item.id || 'N/A',
@@ -865,7 +865,7 @@ const CheckoutModal: React.FC = () => {
         customerPhone: state.checkout.form.whatsapp || state.checkout.form.mobile || 'N/A',
         total: (state.subtotal || 0) + (state.shipping || 0) + (state.overWeightFee || 0) + getPaymentMethodFee() - 
           (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) - 
-          (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount,
+          (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount - (state.checkout.form.groundFloorPickup ? state.shipping : 0),
         paymentMethod: state.checkout.form.paymentMethod || 'cash',
         address: `${state.checkout.form.area ? `[${state.checkout.form.area}] ` : ''}${state.checkout.form.address || ''}, ${state.checkout.form.city || ''}${state.checkout.form.groundFloorPickup ? ' (Ground Floor Pickup)' : ''}`.trim().replace(/^,\s*/, ''),
         items: state.items.map(item => ({
@@ -874,7 +874,7 @@ const CheckoutModal: React.FC = () => {
           price: item.price || 0
         })),
         deliveryCharges: state.shipping || 0,
-        discount: (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) + upsellDiscount
+        discount: (appliedCoupon ? ((state.subtotal * (appliedCoupon.discount || 0)) / 100) : 0) + upsellDiscount + (state.checkout.form.groundFloorPickup ? state.shipping : 0)
       };
 
       const response = await fetch('/api/whatsapp/send', {
