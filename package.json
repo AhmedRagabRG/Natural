@@ -6,7 +6,8 @@
     "dev": "next dev -H 0.0.0.0 -p 3060",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "health-check": "node scripts/health-monitor.js"
   },
   "dependencies": {
     "critters": "^0.0.25",

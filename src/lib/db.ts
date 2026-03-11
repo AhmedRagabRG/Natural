@@ -2049,6 +2049,8 @@ export interface DeliverySettings {
   extra_weight_charge_per_kg: number;
   cod_fee: number;
   card_fee: number;
+  delivery_tier1_max: number;
+  delivery_tier2_max: number;
 }
 
 export class SettingsService {
@@ -2056,7 +2058,7 @@ export class SettingsService {
     const connection = await pool.getConnection();
     try {
       const [rows] = await connection.execute<RowDataPacket[]>(
-        "SELECT setting_key, setting_value FROM af_settings WHERE setting_key IN ('delivery_cost_under_100', 'delivery_cost_100_to_200', 'delivery_cost_over_200', 'free_delivery_threshold', 'standard_shipping_weight_limit', 'extra_weight_charge_per_kg', 'cod_fee', 'card_fee')"
+        "SELECT setting_key, setting_value FROM af_settings WHERE setting_key IN ('delivery_cost_under_100', 'delivery_cost_100_to_200', 'delivery_cost_over_200', 'free_delivery_threshold', 'standard_shipping_weight_limit', 'extra_weight_charge_per_kg', 'cod_fee', 'card_fee', 'delivery_tier1_max', 'delivery_tier2_max')"
       );
       
       const defaults: DeliverySettings = {
@@ -2068,6 +2070,8 @@ export class SettingsService {
         extra_weight_charge_per_kg: 1,
         cod_fee: 2.5,
         card_fee: 1,
+        delivery_tier1_max: 100,
+        delivery_tier2_max: 200,
       };
 
       for (const row of rows as { setting_key: string; setting_value: string }[]) {

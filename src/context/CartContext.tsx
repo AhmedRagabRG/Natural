@@ -14,6 +14,8 @@ interface DeliverySettings {
   extra_weight_charge_per_kg: number;
   cod_fee: number;
   card_fee: number;
+  delivery_tier1_max: number;
+  delivery_tier2_max: number;
 }
 
 // Default settings (fallback if API fails)
@@ -26,6 +28,8 @@ const DEFAULT_SETTINGS: DeliverySettings = {
   extra_weight_charge_per_kg: 1,
   cod_fee: 2.5,
   card_fee: 1,
+  delivery_tier1_max: 100,
+  delivery_tier2_max: 200,
 };
 
 // Module-level settings used by the reducer's calculateTotals
@@ -142,9 +146,9 @@ const calculateTotals = (items: CartItem[], discount: number = 0, groundFloorPic
     const s = currentSettings;
     let shipping = 0;
     if (subtotal < s.free_delivery_threshold) {
-      if (subtotal <= 100) {
+      if (subtotal <= s.delivery_tier1_max) {
         shipping = s.delivery_cost_under_100;
-      } else if (subtotal <= 200) {
+      } else if (subtotal <= s.delivery_tier2_max) {
         shipping = s.delivery_cost_100_to_200;
       } else {
         shipping = s.delivery_cost_over_200;

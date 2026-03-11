@@ -11,16 +11,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      "SELECT name, description FROM af_category WHERE category_url = ? AND status = 1 LIMIT 1",
+      "SELECT name FROM af_category WHERE category_url = ? AND status = 1 LIMIT 1",
       [category_url]
     );
 
     if (rows.length > 0) {
       const category = rows[0];
       const title = category.name;
-      const description =
-        category.description ||
-        `Shop premium ${category.name} online at Natural Spices UAE. Fresh quality products with UAE-wide delivery.`;
+      const description = `Shop premium ${category.name} online at Natural Spices UAE. Fresh quality products with UAE-wide delivery.`;
 
       return {
         title,

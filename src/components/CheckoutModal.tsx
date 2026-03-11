@@ -1459,8 +1459,8 @@ const CheckoutModal: React.FC = () => {
               {showShippingInfo && (
                 <div style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: '12px', marginBottom: '16px', background: '#ffffff' }}>
                   <ul style={{ margin: 0, paddingLeft: '18px', color: '#374151', fontSize: '0.92rem', lineHeight: 1.5 }}>
-                    <li><strong>AED {settings.delivery_cost_under_100}</strong> : Orders up to <strong>AED 100</strong></li>
-                    <li><strong>AED {settings.delivery_cost_100_to_200}</strong> : Orders from <strong>AED 101</strong> to <strong>AED 200</strong></li>
+                    <li><strong>AED {settings.delivery_cost_under_100}</strong> : Orders up to <strong>AED {settings.delivery_tier1_max}</strong></li>
+                    <li><strong>AED {settings.delivery_cost_100_to_200}</strong> : Orders from <strong>AED {settings.delivery_tier1_max + 1}</strong> to <strong>AED {settings.delivery_tier2_max}</strong></li>
                     <li><strong>FREE</strong> : Orders above <strong>AED {settings.free_delivery_threshold - 1}</strong></li>
                   </ul>
                   <p style={{ margin: '10px 0 0', color: '#6b7280', fontSize: '0.9rem' }}>Above {settings.standard_shipping_weight_limit}Kg, <strong>{settings.extra_weight_charge_per_kg} AED per kg</strong> will be charged.</p>
