@@ -349,7 +349,7 @@ const CheckoutModal: React.FC = () => {
                (isRedeemed ? (userRewardValue || 0) : 0) - upsellDiscount,
         subtotal: state.subtotal,
         shipping: state.shipping,
-        discount: (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) + upsellDiscount,
+        discount: (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) + upsellDiscount + (state.checkout.form.groundFloorPickup ? state.shipping : 0),
         coupon: appliedCoupon?.coupon_code || null,
         redeemAmount: isRedeemed ? userRewardValue : 0
       };
@@ -373,7 +373,7 @@ const CheckoutModal: React.FC = () => {
           : onlyDigits(state.checkout.form.mobile),
         amount: state.subtotal,
         delivery_charges: state.shipping,
-        discount: (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) + upsellDiscount,
+        discount: (appliedCoupon ? (state.subtotal * appliedCoupon.discount) / 100 : 0) + upsellDiscount + (state.checkout.form.groundFloorPickup ? state.shipping : 0),
         service_fee: getPaymentMethodFee(),
         redeem_amount: isRedeemed ? userRewardValue : 0,
         // Include overWeightFee in shipping_charges so the dashboard reflects full shipping cost
