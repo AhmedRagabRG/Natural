@@ -55,14 +55,12 @@ export async function POST(request: NextRequest) {
       // Calculate new shipping based on new subtotal
       const newSubtotal = (currentOrder.amount || 0) + additionalAmount;
       let newShipping = 0;
-      if (newSubtotal < settings.free_delivery_threshold) {
-        if (newSubtotal <= 100) {
-          newShipping = settings.delivery_cost_under_100;
-        } else if (newSubtotal <= 200) {
-          newShipping = settings.delivery_cost_100_to_200;
-        } else {
-          newShipping = settings.delivery_cost_over_200;
-        }
+      if (newSubtotal <= settings.delivery_tier1_max) {
+        newShipping = settings.delivery_cost_under_100;
+      } else if (newSubtotal <= settings.delivery_tier2_max) {
+        newShipping = settings.delivery_cost_100_to_200;
+      } else {
+        newShipping = settings.delivery_cost_over_200;
       }
 
       // Calculate over weight fee
