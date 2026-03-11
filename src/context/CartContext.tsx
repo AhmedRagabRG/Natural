@@ -145,14 +145,12 @@ const calculateTotals = (items: CartItem[], discount: number = 0, groundFloorPic
     // Calculate shipping based on subtotal using DB settings
     const s = currentSettings;
     let shipping = 0;
-    if (subtotal < s.free_delivery_threshold) {
-      if (subtotal <= s.delivery_tier1_max) {
-        shipping = s.delivery_cost_under_100;
-      } else if (subtotal <= s.delivery_tier2_max) {
-        shipping = s.delivery_cost_100_to_200;
-      } else {
-        shipping = s.delivery_cost_over_200;
-      }
+    if (subtotal <= s.delivery_tier1_max) {
+      shipping = s.delivery_cost_under_100;
+    } else if (subtotal <= s.delivery_tier2_max) {
+      shipping = s.delivery_cost_100_to_200;
+    } else {
+      shipping = s.delivery_cost_over_200; // 0 = free delivery above tier2
     }
     
   // Over weight fee using DB settings

@@ -1461,7 +1461,7 @@ const CheckoutModal: React.FC = () => {
                   <ul style={{ margin: 0, paddingLeft: '18px', color: '#374151', fontSize: '0.92rem', lineHeight: 1.5 }}>
                     <li><strong>AED {settings.delivery_cost_under_100}</strong> : Orders up to <strong>AED {settings.delivery_tier1_max}</strong></li>
                     <li><strong>AED {settings.delivery_cost_100_to_200}</strong> : Orders from <strong>AED {settings.delivery_tier1_max + 1}</strong> to <strong>AED {settings.delivery_tier2_max}</strong></li>
-                    <li><strong>FREE</strong> : Orders above <strong>AED {settings.free_delivery_threshold - 1}</strong></li>
+                    <li><strong>FREE</strong> : Orders above <strong>AED {settings.delivery_tier2_max}</strong></li>
                   </ul>
                   <p style={{ margin: '10px 0 0', color: '#6b7280', fontSize: '0.9rem' }}>Above {settings.standard_shipping_weight_limit}Kg, <strong>{settings.extra_weight_charge_per_kg} AED per kg</strong> will be charged.</p>
                 </div>
