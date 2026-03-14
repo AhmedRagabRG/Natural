@@ -33,7 +33,12 @@ const Footer: React.FC = () => {
         </a>
       </div>
 
-      <p className="copyright">&copy; 2025 Natural Spices UAE. All rights reserved.</p>
+      <div className="footer-payment">
+        <i className="fa-brands fa-cc-visa" aria-label="Visa"></i>
+        <i className="fa-brands fa-cc-mastercard" aria-label="Mastercard"></i>
+      </div>
+
+      <p className="copyright">&copy; 2026 Natural Spices and Foodstuff Trading LLC. All rights reserved.</p>
     </footer>
   );
 };

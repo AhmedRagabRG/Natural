@@ -14,12 +14,18 @@ const TermsConditionsPage: React.FC = () => {
       <main className="terms-conditions">
         <h1>Terms & Conditions</h1>
 
+        <p className="legal-name-notice">
+          These Terms & Conditions govern the use of services provided by{' '}
+          <strong>Natural Spices and Foodstuff Trading LLC</strong>, trading as{' '}
+          <strong>Natural Spices UAE</strong>, a company registered in the United Arab Emirates.
+        </p>
+
         <h2>1. Agreement to Terms</h2>
         <p>
-          By accessing and using Natural Spices UAE&apos;s website and services,
-          you agree to be bound by these Terms and Conditions. If you disagree
-          with any part of these terms, you may not access our website or use
-          our services.
+          By accessing and using Natural Spices and Foodstuff Trading LLC&apos;s
+          website and services, you agree to be bound by these Terms and
+          Conditions. If you disagree with any part of these terms, you may not
+          access our website or use our services.
         </p>
 
         <h2>2. Use of Our Services</h2>
@@ -85,9 +91,9 @@ const TermsConditionsPage: React.FC = () => {
 
         <h2>8. Limitation of Liability</h2>
         <p>
-          Natural Spices UAE shall not be liable for any indirect, incidental,
-          special, or consequential damages resulting from the use or
-          inability to use our services. This includes but is not limited to
+          Natural Spices and Foodstuff Trading LLC shall not be liable for any
+          indirect, incidental, special, or consequential damages resulting from
+          the use or inability to use our services. This includes but is not limited to
           damages for loss of profits, data, or other intangible losses.
         </p>
 
@@ -104,6 +110,7 @@ const TermsConditionsPage: React.FC = () => {
           For questions about these Terms & Conditions, please contact us at:
         </p>
         <p>
+          <strong>Natural Spices and Foodstuff Trading LLC</strong><br />
           Email: order@naturalspicesuae.com<br />
           Phone: 0527176007<br />
           Address: Dubai, UAE

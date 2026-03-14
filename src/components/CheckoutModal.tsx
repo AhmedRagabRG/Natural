@@ -229,10 +229,18 @@ const CheckoutModal: React.FC = () => {
         // Prepare address without duplicating city if it's appended previously
         let autofillAddress = latestOrder.address || '';
         const latestCity = latestOrder.user_city || '';
-        if (autofillAddress && latestCity) {
-          const escapedCity = latestCity.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const regex = new RegExp(`\\s*,\\s*${escapedCity}\\s*$`, 'i');
-          autofillAddress = autofillAddress.replace(regex, '');
+        if (autofillAddress) {
+          // Strip leading [area] prefix e.g. "[Karama] " or "[Nahda] "
+          autofillAddress = autofillAddress.replace(/^\s*\[[^\]]+\]\s*/g, '');
+          // Strip trailing "(Ground Floor Pickup)" (case-insensitive)
+          autofillAddress = autofillAddress.replace(/\s*\(ground floor pickup\)\s*/gi, '');
+          // Strip trailing ", City" suffix
+          if (latestCity) {
+            const escapedCity = latestCity.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`\\s*,\\s*${escapedCity}\\s*$`, 'i');
+            autofillAddress = autofillAddress.replace(regex, '');
+          }
+          autofillAddress = autofillAddress.trim().replace(/,\s*$/, '');
         }
         
         // Auto-fill the form with the found user data

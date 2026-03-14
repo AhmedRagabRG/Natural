@@ -58,6 +58,16 @@
    color: #555;
 }
 
+.terms-conditions .legal-name-notice {
+   background: #f0f8ff;
+   border-left: 4px solid var(--color-green);
+   border-radius: 6px;
+   padding: 14px 18px;
+   margin-bottom: 30px;
+   color: #333;
+   font-size: 15px;
+}
+
 .terms-conditions ul {
    margin: 0 0 20px 25px;
    list-style: none;

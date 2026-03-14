@@ -56,6 +56,20 @@
    transform: translateY(-3px);
 }
 
+.main-footer .footer-payment {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 14px;
+   margin-top: 24px;
+}
+
+.main-footer .footer-payment i {
+   font-size: 38px;
+   color: #c8e2f7;
+   opacity: 0.85;
+}
+
 @media screen and (max-width: 768px) {
    .main-footer .footer-nav {
       flex-direction: column;
