@@ -11,20 +11,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      "SELECT title, summary, image FROM af_blogs WHERE id = ? AND status = 1 LIMIT 1",
+      "SELECT blog_title, description, images FROM af_blogs WHERE id = ? AND status = 1 LIMIT 1",
       [id]
     );
 
     if (rows.length > 0) {
       const article = rows[0];
-      const title = article.title;
+      const title = article.blog_title;
       const description =
-        article.summary ||
-        `Read ${article.title} on Natural Spices UAE blog.`;
+        article.description
+          ? article.description.replace(/<[^>]*>/g, "").slice(0, 160)
+          : `Read ${article.blog_title} on Natural Spices UAE blog.`;
 
       let imageUrl: string | undefined;
-      if (article.image) {
-        imageUrl = `https://dashboard.naturalspicesuae.com/uploads/blogs/${article.image}`;
+      if (article.images) {
+        imageUrl = `https://dashboard.naturalspicesuae.com/uploads/blogs/${article.images}`;
       }
 
       return {
