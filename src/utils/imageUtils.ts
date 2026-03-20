@@ -8,7 +8,6 @@ import { cache, CACHE_KEYS } from './cache';
  */
 export const getFirstImageUrl = async (images?: string | number): Promise<string> => {
   if (!images) return "/assets/du.png";
-  console.log(images)
   // Convert to string if it's a number
   const imagesStr = typeof images === 'number' ? images.toString() : images;
   

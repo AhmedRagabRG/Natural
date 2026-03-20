@@ -84,6 +84,7 @@ export const CACHE_KEYS = {
   PRODUCTS_BY_CATEGORY: (categoryId: number) => `products:category:${categoryId}`,
   PRODUCTS_FEATURED: 'products:featured',
   PRODUCT_BY_ID: (id: number) => `product:${id}`,
+  PRODUCT_BY_URL: (slug: string) => `product:url:${slug}`,
   IMAGE_URL: (imageData: string | number) => `image:${imageData}`,
   PRODUCTS_SEARCH: (query: string) => `products:search:${query.toLowerCase()}`,
 } as const;

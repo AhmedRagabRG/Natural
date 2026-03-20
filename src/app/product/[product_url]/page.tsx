@@ -120,54 +120,43 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
   const loadProduct = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/products?status=active`);
+      const response = await fetch(`/api/products/slug/${encodeURIComponent(product_url)}`);
       const data = await response.json();
 
       if (data.success && data.data) {
-        const productsData = Array.isArray(data.data)
-          ? data.data
-          : data.data.products || [];
+        const foundProduct = data.data as Product;
 
-        // Decode the URL parameter and find product by product_url
-        const decodedProductUrl = decodeURIComponent(product_url);
-        const foundProduct = productsData.find((p: Product) =>
-          p.product_url === product_url ||
-          p.product_url === decodedProductUrl
-        );
+        setProduct(foundProduct);
+        // Load all product images
+        const imageUrls = await getAllImageUrls(foundProduct.images);
+        setAllImageUrls(imageUrls);
+        setActiveImageIndex(0);
+        setProductImageUrl(imageUrls[0] || '/assets/du.png');
 
-        if (foundProduct) {
-          setProduct(foundProduct);
-          // Load all product images
-          const imageUrls = await getAllImageUrls(foundProduct.images);
-          setAllImageUrls(imageUrls);
-          setActiveImageIndex(0);
-          setProductImageUrl(imageUrls[0] || '/assets/du.png');
-
-          // If this is a parent product, fetch its children
-          if (foundProduct.is_parent === 1) {
-            await fetchChildProducts(foundProduct.product_id);
-          } else {
-            // Reset child products if switching to non-parent product
-            setChildProducts([]);
-            setSelectedVariation(null);
-          }
-
-          if (foundProduct.category_id) {
-            await fetchSimilarProducts(foundProduct.category_id, foundProduct.product_id);
-          }
-
-          // Fire GTM view_item event
-          const currentPrice = foundProduct.special_price && parseFloat(foundProduct.special_price.toString()) > 0
-            ? parseFloat(foundProduct.special_price.toString())
-            : parseFloat(foundProduct.price.toString());
-
-          gtmViewItem({
-            id: foundProduct.product_id.toString(),
-            name: foundProduct.name,
-            price: currentPrice,
-            category: foundProduct.category_name || 'Spices'
-          });
+        // If this is a parent product, fetch its children
+        if (foundProduct.is_parent === 1) {
+          await fetchChildProducts(foundProduct.product_id);
+        } else {
+          // Reset child products if switching to non-parent product
+          setChildProducts([]);
+          setSelectedVariation(null);
         }
+
+        if (foundProduct.category_id) {
+          await fetchSimilarProducts(foundProduct.category_id, foundProduct.product_id);
+        }
+
+        // Fire GTM view_item event
+        const currentPrice = foundProduct.special_price && parseFloat(foundProduct.special_price.toString()) > 0
+          ? parseFloat(foundProduct.special_price.toString())
+          : parseFloat(foundProduct.price.toString());
+
+        gtmViewItem({
+          id: foundProduct.product_id.toString(),
+          name: foundProduct.name,
+          price: currentPrice,
+          category: foundProduct.category_name || 'Spices'
+        });
       }
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -200,7 +189,7 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
     try {
       setRecentProductsLoading(true);
       const response = await fetch(
-        `/api/products?category_id=${categoryId}&status=active`
+        `/api/products?category_id=${categoryId}&status=active&limit=24`
       );
       const data = await response.json();
 

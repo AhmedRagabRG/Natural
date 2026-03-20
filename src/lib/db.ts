@@ -936,6 +936,74 @@ export class ProductService {
     }
   }
 
+  static async getProductByUrl(productUrl: string) {
+    try {
+      const query = `
+        SELECT 
+          p.*,
+          c.name as category_name,
+          sc.name as subcategory_name
+        FROM af_products p
+        LEFT JOIN af_category c ON p.category_id = c.id
+        LEFT JOIN af_subcategory sc ON p.sub_category_id = sc.id
+        WHERE p.product_url = ?
+        LIMIT 1
+      `;
+
+      const [rows] = await pool.execute(query, [productUrl]) as [unknown[], unknown];
+      const products = rows as Product[];
+
+      if (products.length === 0) {
+        return null;
+      }
+
+      const product = products[0];
+
+      if (product.special_price && product.price > product.special_price) {
+        product.discount_percentage = Math.round(
+          ((product.price - product.special_price) / product.price) * 100
+        );
+      }
+
+      if (product.images) {
+        try {
+          product.images = JSON.parse(product.images);
+        } catch (e) {
+          // Keep as string if not valid JSON
+        }
+      }
+
+      const getFirstImageId = (images?: unknown): number | null => {
+        if (!images) return null;
+        if (typeof images === 'number') return images;
+        if (Array.isArray(images)) {
+          const first = images[0];
+          const idNum = typeof first === 'number' ? first : parseInt(String(first), 10);
+          return isNaN(idNum) ? null : idNum;
+        }
+        if (typeof images === 'string') {
+          const firstToken = images.split(',')[0]?.trim();
+          const idNum = parseInt(firstToken || '', 10);
+          return isNaN(idNum) ? null : idNum;
+        }
+        return null;
+      };
+
+      const fid = getFirstImageId(product.images as unknown);
+      if (fid) {
+        const [fileRows] = await pool.execute<RowDataPacket[]>('SELECT file_path, file_name FROM af_files WHERE id = ? LIMIT 1', [fid]);
+        if (fileRows.length > 0) {
+          (product as Product & { image_url?: string }).image_url = `${fileRows[0].file_path}${fileRows[0].file_name}`;
+        }
+      }
+
+      return product;
+    } catch (error) {
+      console.error('Error fetching product by URL:', error);
+      throw error;
+    }
+  }
+
   static async getChildProducts(parentId: number) {
     try {
       const query = `
