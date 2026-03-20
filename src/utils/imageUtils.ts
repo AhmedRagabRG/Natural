@@ -2,6 +2,18 @@
 import { cache, CACHE_KEYS } from './cache';
 
 /**
+ * Helper function to add a version query parameter to break cache
+ * It uses the updatedAt timestamp if available, otherwise the current time.
+ */
+const addCacheVersion = (url: string, updatedAt?: string): string => {
+  if (!url || url === "/assets/du.png") return url;
+  const version = updatedAt ? new Date(updatedAt).getTime() : new Date().getTime();
+  // Check if URL already has a query string
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}v=${version}`;
+};
+
+/**
  * Get the first image URL from a comma-separated list of image IDs
  * @param images - String or number containing comma-separated image IDs
  * @returns Promise<string> - The image URL or default fallback
@@ -29,13 +41,13 @@ export const getFirstImageUrl = async (images?: string | number): Promise<string
       const fileData = await response.json();
       let imageUrl = "/assets/du.png";
       
+      const data = fileData.data || fileData;
+
       // Combine file_path and file_name to create full image URL
-      if (fileData.data?.file_path && fileData.data?.file_name) {
-        imageUrl = `${fileData.data.file_path}${fileData.data.file_name}`;
-      }
-      // Handle different response structure for offer page
-      else if (fileData.file_path && fileData.file_name) {
-        imageUrl = `${fileData.file_path}${fileData.file_name}`;
+      if (data.file_path && data.file_name) {
+        imageUrl = `${data.file_path}${data.file_name}`;
+        // Apply cache breaking version
+        imageUrl = addCacheVersion(imageUrl, data.updated_at);
       }
       
       // Cache the result for 10 minutes
@@ -76,10 +88,11 @@ export const getAllImageUrls = async (images?: string | number): Promise<string[
           const fileData = await response.json();
           let imageUrl = "/assets/du.png";
 
-          if (fileData.data?.file_path && fileData.data?.file_name) {
-            imageUrl = `${fileData.data.file_path}${fileData.data.file_name}`;
-          } else if (fileData.file_path && fileData.file_name) {
-            imageUrl = `${fileData.file_path}${fileData.file_name}`;
+          const data = fileData.data || fileData;
+          if (data.file_path && data.file_name) {
+            imageUrl = `${data.file_path}${data.file_name}`;
+            // Apply cache breaking version
+            imageUrl = addCacheVersion(imageUrl, data.updated_at);
           }
 
           cache.set(cacheKey, imageUrl, 10 * 60 * 1000);
@@ -130,9 +143,13 @@ export const getSecondImageUrl = async (images?: string | number): Promise<strin
       const fileData = await response.json();
       let imageUrl = "/assets/du.png";
       
+      const data = fileData.data || fileData;
+
       // Combine file_path and file_name to create full image URL
-      if (fileData.data?.file_path && fileData.data?.file_name) {
-        imageUrl = `${fileData.data.file_path}${fileData.data.file_name}`;
+      if (data.file_path && data.file_name) {
+        imageUrl = `${data.file_path}${data.file_name}`;
+        // Apply cache breaking version
+        imageUrl = addCacheVersion(imageUrl, data.updated_at);
       }
       
       // Cache the result for 10 minutes
