@@ -6,7 +6,6 @@ import Image from "next/image";
 import "./page.css";
 import { useProduct } from "../../../context/ProductContext";
 import { getFirstImageUrl } from "../../../utils/imageUtils";
-import { useProductUpdates } from "../../../hooks/useProductUpdates";
 import { ProductCard } from "../../../components";
 
 interface Product {
@@ -27,6 +26,7 @@ interface Product {
   product_url?: string;
   images?: string | number;
   imageUrl?: string;
+  image_url?: string;
   parent_product_id?: number | null;
   is_parent?: number;
   dubai_only?: number;
@@ -60,39 +60,22 @@ export default function OfferPage() {
 
   const eventUrl = params?.event_url as string;
 
-  // Use product updates hook for real-time updates
-  const { isConnected } = useProductUpdates({
-    onUpdate: (event) => {
-      console.log('Product update received in offer page:', event);
-      // Reload products when they are updated
-      if (event.type === 'product_updated' || event.type === 'product_created' || event.type === 'product_deleted') {
-        loadProducts();
-      }
-    }
-  });
-
-
-
   // Load event data
   const loadEventData = async () => {
     try {
-      const response = await fetch("/api/events");
+      const response = await fetch(`/api/events/slug/${encodeURIComponent(eventUrl)}`);
       const data = await response.json();
 
       if (data.success && data.data) {
-        // Handle different API response structures
-        const events = Array.isArray(data.data)
-          ? data.data
-          : data.data.events || [];
-        const event = events.find((e: Event) => e.event_url === eventUrl);
-        if (event) {
-          setCurrentEvent(event);
-          // Update page title dynamically
-          document.title = `${event.name} - Natural Spices`;
-        }
+        const event = data.data as Event;
+        setCurrentEvent(event);
+        document.title = `${event.name} - Natural Spices`;
+      } else {
+        setCurrentEvent(null);
       }
     } catch (error) {
       console.error("Error loading event data:", error);
+      setCurrentEvent(null);
     }
   };
 
@@ -121,9 +104,11 @@ export default function OfferPage() {
   const loadProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        "/api/products?status=active"
-      );
+      const productsUrl = currentEvent && currentEvent.id
+        ? `/api/products?status=active&event_id=${currentEvent.id}`
+        : "/api/products?status=active";
+
+      const response = await fetch(productsUrl);
       const data = await response.json();
 
       if (data.success && data.data) {
@@ -131,22 +116,11 @@ export default function OfferPage() {
         const productsData = Array.isArray(data.data)
           ? data.data
           : data.data.products || data.data || [];
-        let filteredProducts = [];
-
-        if (currentEvent && currentEvent.id) {
-          // Filter products by event_id matching current event id
-          filteredProducts = productsData.filter(
-            (product: Product) =>
-              product.event_id === currentEvent.id.toString() ||
-              product.event_id === eventUrl
-          );
-        } else {
-          // If no event, show products with special_price
-          filteredProducts = productsData.filter(
-            (product: Product) =>
-              product.special_price && product.special_price > 0
-          );
-        }
+        const filteredProducts = currentEvent && currentEvent.id
+          ? productsData
+          : productsData.filter(
+              (product: Product) => product.special_price && product.special_price > 0
+            );
 
         // Map products with calculated prices and discount
         const mappedProducts = filteredProducts.map((product: Product) => ({
@@ -162,7 +136,7 @@ export default function OfferPage() {
         // Load images for all products
         const productsWithImages = await Promise.all(
           mappedProducts.map(async (product: Product) => {
-            const imageUrl = await getFirstImageUrl(product.images);
+            const imageUrl = product.image_url || await getFirstImageUrl(product.images);
             return {
               ...product,
               imageUrl

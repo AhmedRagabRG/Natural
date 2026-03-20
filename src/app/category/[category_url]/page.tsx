@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useProduct } from "../../../context/ProductContext";
 import { getFirstImageUrl } from "../../../utils/imageUtils";
-import { useProductUpdates } from "../../../hooks/useProductUpdates";
 import { gtmViewItemList } from "../../../utils/gtm";
 import { ProductCard } from "../../../components";
 
@@ -27,6 +26,7 @@ interface Product {
   product_url?: string;
   images?: string | number;
   imageUrl?: string;
+  image_url?: string;
   parent_product_id?: number | null;
   is_parent?: number;
   dubai_only?: number;
@@ -48,26 +48,10 @@ export default function CategoryPage() {
 
   const categoryUrl = params?.category_url as string;
 
-  // Use product updates hook for real-time updates
-  const { isConnected } = useProductUpdates({
-    onUpdate: (event) => {
-      console.log('Product update received in category page:', event);
-      // Reload products when they are updated, especially if they belong to current category
-      if (event.type === 'product_updated' || event.type === 'product_created' || event.type === 'product_deleted') {
-        // If the update is for current category or no specific category, reload
-        if (!event.data?.category_id || event.data.category_id === currentCategory?.id) {
-          loadProducts();
-        }
-      }
-    }
-  });
-
   // Load category data
   const loadCategoryData = async () => {
     try {
-      const response = await fetch(
-        `/api/category/${categoryUrl}?include_subcategories=true`
-      );
+      const response = await fetch(`/api/category/${categoryUrl}`);
       const data = await response.json();
 
       if (data.success && data.data) {
@@ -109,7 +93,7 @@ export default function CategoryPage() {
         // Load images for all products
         const productsWithImages = await Promise.all(
           mappedProducts.map(async (product: Product) => {
-            const imageUrl = await getFirstImageUrl(product.images);
+            const imageUrl = product.image_url || await getFirstImageUrl(product.images);
             return {
               ...product,
               imageUrl

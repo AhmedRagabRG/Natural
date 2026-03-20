@@ -5,8 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useCart } from "../../../context/CartContext";
 import { formatPrice, calculateRewardPoints } from "../../../utils/price";
-import { getFirstImageUrl, getSecondImageUrl, getAllImageUrls } from "../../../utils/imageUtils";
-import { useProductUpdates } from "../../../hooks/useProductUpdates";
+import { getFirstImageUrl, getAllImageUrls } from "../../../utils/imageUtils";
 import { gtmViewItem } from "../../../utils/gtm";
 import ProductCard from "../../../components/ProductCard";
 import './page.css'
@@ -56,6 +55,7 @@ interface Product {
   parent_product_id?: number | null;
   is_parent?: number;
   dubai_only?: number;
+  image_url?: string;
 }
 
 interface RecentProduct {
@@ -85,9 +85,8 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
   const [topSellersLoading, setTopSellersLoading] = useState(true);
   const [childProducts, setChildProducts] = useState<Product[]>([]);
   const [selectedVariation, setSelectedVariation] = useState<Product | null>(null);
-  const { addItem, removeItem, updateQuantity, decreaseQuantity, increaseQuantity, state } = useCart();
+  const { addItem, removeItem, updateQuantity, state } = useCart();
   const searchParams = useSearchParams();
-  const unitParam = searchParams.get('unit');
 
   // Function to fetch child products
   const fetchChildProducts = async (parentId: number) => {
@@ -165,25 +164,6 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
     }
   };
 
-  // Use product updates hook for real-time updates
-  const { isConnected } = useProductUpdates({
-    onUpdate: (event) => {
-      console.log('Product update received in product page:', event);
-      // Reload current product if it's updated
-      if (event.type === 'product_updated' && event.data?.product_id === product?.product_id) {
-        loadProduct();
-      }
-      // Reload similar products if any product is updated/created/deleted
-      if (event.type === 'product_updated' || event.type === 'product_created' || event.type === 'product_deleted') {
-        if (product?.category_id) {
-          fetchSimilarProducts(product.category_id, product.product_id);
-        }
-      }
-    }
-  });
-
-
-
   // Fetch similar products from the same category
   const fetchSimilarProducts = async (categoryId: number, currentProductId: number) => {
     try {
@@ -204,7 +184,7 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
             .filter((p: Product) => p.product_id !== currentProductId)
             .slice(0, 8)
             .map(async (product: Product) => {
-              const imageUrl = await getFirstImageUrl(product.images);
+              const imageUrl = product.image_url || await getFirstImageUrl(product.images);
               return {
                 id: product.product_id.toString(),
                 name: product.name,
@@ -248,7 +228,7 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
           productsData
             .slice(0, 8)
             .map(async (product: Product) => {
-              const imageUrl = await getFirstImageUrl(product.images);
+              const imageUrl = product.image_url || await getFirstImageUrl(product.images);
               return {
                 id: product.product_id.toString(),
                 name: product.name,

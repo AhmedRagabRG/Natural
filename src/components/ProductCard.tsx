@@ -57,6 +57,7 @@ interface ProductCardProps {
   dubai_only?: number;
   product_unit?: string;
   onProductClick?: () => void;
+  disableChildFetch?: boolean;
 }
 
 export default function ProductCard({
@@ -69,7 +70,8 @@ export default function ProductCard({
   is_parent,
   dubai_only,
   product_unit,
-  onProductClick
+  onProductClick,
+  disableChildFetch = false
 }: ProductCardProps) {
   const { addItem, decreaseQuantity, increaseQuantity, state } = useCart();
   const [childProducts, setChildProducts] = useState<ChildProduct[]>([]);
@@ -78,10 +80,10 @@ export default function ProductCard({
 
   // Fetch child products if this is a parent product
   useEffect(() => {
-    if (is_parent === 1) {
+    if (is_parent === 1 && !disableChildFetch) {
       fetchChildProducts();
     }
-  }, [is_parent, id]);
+  }, [is_parent, id, disableChildFetch]);
 
   const fetchChildProducts = async () => {
     try {

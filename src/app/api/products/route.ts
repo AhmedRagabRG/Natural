@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
     const order = searchParams.get('order') || 'ASC';
     const category_id = searchParams.get('category_id') ? parseInt(searchParams.get('category_id')!) : undefined;
     const subcategory_id = searchParams.get('subcategory_id') ? parseInt(searchParams.get('subcategory_id')!) : undefined;
+    const event_id = searchParams.get('event_id') || undefined;
     const featured = searchParams.get('featured') === 'true' ? true : undefined;
     const status = searchParams.get('status') || 'active';
     const search = searchParams.get('search') || undefined;
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
     // Create cache key based on all parameters
     const cacheKey = `products:${JSON.stringify({
       page, limit, sort, order, category_id, subcategory_id, 
-      featured, status, search, min_price, max_price, lang, include_children
+      event_id, featured, status, search, min_price, max_price, lang, include_children
     })}`;
 
     // Check cache first
@@ -64,6 +65,7 @@ export async function GET(request: NextRequest) {
       order,
       category_id,
       subcategory_id,
+      event_id,
       featured,
       status,
       search,

@@ -671,6 +671,7 @@ export class ProductService {
     order?: string;
     category_id?: number;
     subcategory_id?: number;
+    event_id?: string;
     featured?: boolean;
     status?: string;
     search?: string;
@@ -687,6 +688,7 @@ export class ProductService {
         order = 'ASC',
         category_id,
         subcategory_id,
+        event_id,
         featured,
         status = 'active',
         search,
@@ -735,6 +737,12 @@ export class ProductService {
       if (subcategory_id) {
         whereConditions.push('p.sub_category_id = ?');
         queryParams.push(subcategory_id);
+      }
+
+      // Event filter
+      if (event_id) {
+        whereConditions.push('p.event_id = ?');
+        queryParams.push(event_id);
       }
 
       // Price range filter
@@ -1385,6 +1393,24 @@ export class EventService {
       const [rows] = await connection.execute(query, [id]);
       const events = rows as Event[];
       
+      if (events.length === 0) {
+        return null;
+      }
+
+      return events[0];
+    } finally {
+      connection.release();
+    }
+  }
+
+  static async getEventByUrl(eventUrl: string) {
+    const connection = await pool.getConnection();
+
+    try {
+      const query = 'SELECT * FROM af_events WHERE event_url = ? AND status = 1 LIMIT 1';
+      const [rows] = await connection.execute(query, [eventUrl]);
+      const events = rows as Event[];
+
       if (events.length === 0) {
         return null;
       }

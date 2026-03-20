@@ -11,6 +11,7 @@ import { gtmViewItemList } from "../utils/gtm";
 import { ProductCard } from "../components";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface Product {
   id: string;
@@ -73,6 +74,7 @@ export default function Home() {
   const [lastUpdateTime, setLastUpdateTime] = useState<number>(0);
   const { state } = useCart();
   const { setProduct } = useProduct();
+  const router = useRouter();
 
   // Use shared product updates for real-time updates (single SSE connection)
   const { isConnected, lastUpdate } = useSharedProductUpdates({
@@ -271,6 +273,15 @@ export default function Home() {
     loadCollections();
   }, []);
 
+  useEffect(() => {
+    // Prefetch top category pages for snappier first navigation
+    collections.slice(0, 8).forEach((collection) => {
+      if (collection.category_url) {
+        router.prefetch(`/category/${collection.category_url}`);
+      }
+    });
+  }, [collections, router]);
+
   return (
     <main>
       <div className="main-container" style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}>
@@ -329,6 +340,7 @@ export default function Home() {
                   <div className="card-content">
                     <Link
                       href={`/category/${collection.category_url || collection.id}`}
+                      prefetch={true}
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <h5 className="card-title" style={{ cursor: "pointer" }}>{collection.title}</h5>
