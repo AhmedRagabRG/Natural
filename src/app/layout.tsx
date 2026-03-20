@@ -6,7 +6,7 @@ import { CartProvider } from "../context/CartContext";
 import { ProductProvider } from "../context/ProductContext";
 import { OffersProvider } from "../context/OffersContext";
 import { ProductUpdatesProvider } from "../context/ProductUpdatesContext";
-import { TopBar, Header, Footer, MobileFixedFooter, CartModal } from "../components";
+import { TopBar, Header, Footer, MobileFixedFooter, CartModal, WhatsAppFloat } from "../components";
 import CheckoutModal from "../components/CheckoutModal";
 import Script from "next/script";
 
@@ -216,6 +216,7 @@ export default function RootLayout({
             <TopBar />
             <LayoutContent>{children}</LayoutContent>
             <Footer />
+            <WhatsAppFloat />
             <MobileFixedFooter />
             <CartModal />
             <CheckoutModal />
