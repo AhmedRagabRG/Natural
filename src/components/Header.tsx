@@ -282,6 +282,12 @@ const Header: React.FC = () => {
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
+
+    // Start loading searchable products immediately on first keystroke
+    if (value.trim().length > 0 && allProducts.length === 0 && !productsLoading) {
+      fetchAllProducts();
+    }
+
     searchProducts(value); // Now uses local search - much faster!
   };
 
@@ -393,6 +399,13 @@ const Header: React.FC = () => {
     };
   }, []);
 
+  // Re-run search once products finish loading to avoid false empty results on first visit
+  useEffect(() => {
+    if (searchQuery.trim().length > 0 && allProducts.length > 0) {
+      searchProducts(searchQuery);
+    }
+  }, [allProducts, searchQuery]);
+
   return (
     <div className="header-container">
       <div className="container-fluid">
@@ -439,7 +452,9 @@ const Header: React.FC = () => {
                     className="search-dropdown"
                     style={{ display: "block", ...dropdownStyle }}
                   >
-                    {searchResults.length > 0 ? (
+                    {productsLoading && allProducts.length === 0 ? (
+                      <div className="no-results">Searching products...</div>
+                    ) : searchResults.length > 0 ? (
                       <div>
                         {searchResults.map((product) => {
                           const children = product.is_parent === 1 

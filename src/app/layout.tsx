@@ -168,12 +168,12 @@ export default function RootLayout({
         </noscript>
         {/* End Meta Pixel Code */}
         
-        {/* Preconnect to 3rd-party origins so their TCP/TLS is ready before scripts fire */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://connect.facebook.net" />
-        <link rel="preconnect" href="https://www.facebook.com" />
+        {/* Keep preconnects only for critical render-path origins */}
         <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://dashboard.naturalspicesuae.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://www.facebook.com" />
         <link rel="dns-prefetch" href="https://dashboard.naturalspicesuae.com" />
         {/* Favicon */}
         <link
@@ -181,14 +181,24 @@ export default function RootLayout({
           type="image/x-icon"
           href="/logo_header.png"
         />
-        {/* Font Awesome - load from head to avoid late icon layout shifts */}
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        {/* Defer non-critical icon stylesheet to keep initial render path lighter */}
+        <Script
+          id="font-awesome-loader"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+                link.crossOrigin = 'anonymous';
+                document.head.appendChild(link);
+              })();
+            `,
+          }}
+        />
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe 
