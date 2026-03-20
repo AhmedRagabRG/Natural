@@ -123,17 +123,22 @@ export default function OfferPage() {
             );
 
         // Map products with calculated prices and discount
+        // Don't filter parent products - they'll load children in ProductCard
         const mappedProducts = filteredProducts
-          .filter((product: Product) => product.price && product.special_price)
-          .map((product: Product) => ({
-            ...product,
-            currentPrice: product.special_price || product.price,
-            originalPrice: product.price,
-            discountPercentage: product.special_price && product.price
-              ? Math.round((1 - product.special_price / product.price) * 100)
-              : 0,
-            weight: product.product_unit ? parseFloat(product.product_unit) : 0,
-          }));
+          .map((product: Product) => {
+            // For products with price, use it directly
+            // For parent products without price, use a placeholder (children prices will be loaded in ProductCard)
+            const hasPrice = product.price && product.special_price;
+            return {
+              ...product,
+              currentPrice: hasPrice ? product.special_price : 0,
+              originalPrice: hasPrice ? product.price : 0,
+              discountPercentage: hasPrice && product.price && product.special_price
+                ? Math.round((1 - product.special_price / product.price) * 100)
+                : 0,
+              weight: product.product_unit ? parseFloat(product.product_unit) : 0,
+            };
+          });
 
         // Load images for all products
         const productsWithImages = await Promise.all(
