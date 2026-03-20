@@ -105,7 +105,7 @@ export default function OfferPage() {
     try {
       setLoading(true);
       const productsUrl = currentEvent && currentEvent.id
-        ? `/api/products?status=active&event_id=${currentEvent.id}`
+        ? `/api/products?status=active&event_id=${currentEvent.id}&event_url=${encodeURIComponent(eventUrl)}`
         : "/api/products?status=active";
 
       const response = await fetch(productsUrl);

@@ -672,6 +672,7 @@ export class ProductService {
     category_id?: number;
     subcategory_id?: number;
     event_id?: string;
+    event_url?: string;
     featured?: boolean;
     status?: string;
     search?: string;
@@ -689,6 +690,7 @@ export class ProductService {
         category_id,
         subcategory_id,
         event_id,
+        event_url,
         featured,
         status = 'active',
         search,
@@ -740,9 +742,15 @@ export class ProductService {
       }
 
       // Event filter
-      if (event_id) {
+      if (event_id && event_url) {
+        whereConditions.push('(p.event_id = ? OR p.event_id = ?)');
+        queryParams.push(event_id, event_url);
+      } else if (event_id) {
         whereConditions.push('p.event_id = ?');
         queryParams.push(event_id);
+      } else if (event_url) {
+        whereConditions.push('p.event_id = ?');
+        queryParams.push(event_url);
       }
 
       // Price range filter
