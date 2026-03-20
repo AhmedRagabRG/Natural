@@ -123,15 +123,17 @@ export default function OfferPage() {
             );
 
         // Map products with calculated prices and discount
-        const mappedProducts = filteredProducts.map((product: Product) => ({
-          ...product,
-          currentPrice: product.special_price || product.price,
-          originalPrice: product.price,
-          discountPercentage: product.special_price
-            ? Math.round((1 - product.special_price / product.price) * 100)
-            : 0,
-          weight: product.product_unit ? parseFloat(product.product_unit) : 0,
-        }));
+        const mappedProducts = filteredProducts
+          .filter((product: Product) => product.price && product.special_price)
+          .map((product: Product) => ({
+            ...product,
+            currentPrice: product.special_price || product.price,
+            originalPrice: product.price,
+            discountPercentage: product.special_price && product.price
+              ? Math.round((1 - product.special_price / product.price) * 100)
+              : 0,
+            weight: product.product_unit ? parseFloat(product.product_unit) : 0,
+          }));
 
         // Load images for all products
         const productsWithImages = await Promise.all(

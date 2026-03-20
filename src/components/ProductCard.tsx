@@ -8,10 +8,10 @@ import { formatPrice } from '../utils/price';
 import './ProductCard.css';
 
 // Helper function to format weight display
-const formatWeight = (weight: string | number, unit?: string): string => {
+const formatWeight = (weight: string | number | null | undefined, unit?: string): string => {
   const weightNum = typeof weight === 'string' ? parseFloat(weight) : weight;
   
-  if (isNaN(weightNum)) return '';
+  if (!weightNum || isNaN(weightNum)) return '';
   
   // If unit is kg or Kg
   if (unit?.toLowerCase() === 'kg') {
@@ -106,12 +106,12 @@ export default function ProductCard({
   const selectedChild = childProducts.find(c => c.product_id === selectedChildId);
 
   // Calculate display price
-  let displayPrice = currentPrice;
+  let displayPrice = currentPrice || 0;
   let displayOriginalPrice = originalPrice;
   
   if (is_parent === 1 && selectedChild) {
     const hasSpecialPrice = selectedChild.special_price && selectedChild.special_price > 0;
-    displayPrice = hasSpecialPrice ? selectedChild.special_price! : selectedChild.price;
+    displayPrice = hasSpecialPrice ? selectedChild.special_price! : (selectedChild.price || 0);
     displayOriginalPrice = hasSpecialPrice ? selectedChild.price : undefined;
   }
 
