@@ -20,11 +20,24 @@
 }
 
 body {
-   font-family: "Inter", sans-serif;
+   font-family: var(--font-geist-sans), sans-serif;
    font-size: 15px;
    background: var(--color-white);
    color: var(--color-black);
    margin: 0 !important;
+}
+
+/* Reserve icon width before webfont paints to reduce layout shifts */
+.fa,
+.fa-solid,
+.fas,
+.fa-regular,
+.far,
+.fa-brands,
+.fab {
+   display: inline-block;
+   width: 1em;
+   text-align: center;
 }
 
 * {

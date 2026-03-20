@@ -173,6 +173,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://connect.facebook.net" />
         <link rel="preconnect" href="https://www.facebook.com" />
         <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://dashboard.naturalspicesuae.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://dashboard.naturalspicesuae.com" />
         {/* Favicon */}
         <link
@@ -180,29 +181,14 @@ export default function RootLayout({
           type="image/x-icon"
           href="/logo_header.png"
         />
-        {/* Font Awesome - preloaded then applied asynchronously to avoid render blocking */}
+        {/* Font Awesome - load from head to avoid late icon layout shifts */}
         <link
-          rel="preload"
-          as="style"
+          rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           crossOrigin="anonymous"
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {/* Load Font Awesome asynchronously after body starts */}
-        <Script
-          id="font-awesome-loader"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              var link = document.createElement('link');
-              link.rel = 'stylesheet';
-              link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-              link.crossOrigin = 'anonymous';
-              document.head.appendChild(link);
-            `,
-          }}
-        />
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe 
