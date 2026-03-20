@@ -23,13 +23,13 @@ export async function GET(
       return NextResponse.json(cachedEvent);
     }
 
-    const event = await EventService.getEventByUrl(decodedSlug);
+    const event = await EventService.getEventByUrlOrLatest(decodedSlug);
 
     if (!event) {
       const notFoundResult = {
         success: false,
         error: {
-          message: 'Event not found'
+          message: 'No active events available'
         }
       };
       cache.set(cacheKey, notFoundResult, 60 * 1000);

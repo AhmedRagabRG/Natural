@@ -1429,6 +1429,34 @@ export class EventService {
     }
   }
 
+  static async getEventByUrlOrLatest(eventUrl: string) {
+    const connection = await pool.getConnection();
+
+    try {
+      // Try to find event by exact event_url match first
+      const query = 'SELECT * FROM af_events WHERE event_url = ? AND status = 1 LIMIT 1';
+      const [rows] = await connection.execute(query, [eventUrl]);
+      const events = rows as Event[];
+
+      if (events.length > 0) {
+        return events[0];
+      }
+
+      // If not found, return the latest active event as fallback
+      const fallbackQuery = 'SELECT * FROM af_events WHERE status = 1 ORDER BY created_at DESC LIMIT 1';
+      const [fallbackRows] = await connection.execute(fallbackQuery);
+      const fallbackEvents = fallbackRows as Event[];
+
+      if (fallbackEvents.length === 0) {
+        return null;
+      }
+
+      return fallbackEvents[0];
+    } finally {
+      connection.release();
+    }
+  }
+
   static async getFeaturedEvents(limit: number = 5) {
     const connection = await pool.getConnection();
     
