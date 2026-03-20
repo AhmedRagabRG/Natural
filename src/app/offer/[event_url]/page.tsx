@@ -255,7 +255,7 @@ export default function OfferPage() {
                 marginBottom: '8px',
               }}>
                 <Image
-                  src={`https://dashboard.naturalspicesuae.com/uploads/events/${currentEvent.id}.jpg`}
+                  src={`https://dashboard.naturalspicesuae.com/uploads/events/${currentEvent.id}.jpg?v=${new Date(currentEvent.created_at).getTime()}`}
                   alt={currentEvent.name}
                   width={1200}
                   height={350}
