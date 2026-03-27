@@ -34,7 +34,6 @@ interface Product {
 interface Subcategory {
   id: number;
   name: string;
-  subcategory_url?: string;
   status: number;
 }
 
@@ -45,12 +44,12 @@ export default function SubcategoryPage() {
   const [loading, setLoading] = useState(true);
   const [currentSubcategory, setCurrentSubcategory] = useState<Subcategory | null>(null);
 
-  const subcategoryUrl = params?.subcategory_url as string;
+  const subcategorySlug = params?.slug as string;
 
   // Load subcategory data
   const loadSubcategoryData = async () => {
     try {
-      const response = await fetch(`/api/subcategory/${subcategoryUrl}`);
+      const response = await fetch(`/api/subcategory/by-slug/${subcategorySlug}`);
       const data = await response.json();
 
       if (data.success && data.data) {
@@ -131,11 +130,11 @@ export default function SubcategoryPage() {
   };
 
   useEffect(() => {
-    if (subcategoryUrl) {
+    if (subcategorySlug) {
       loadSubcategoryData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subcategoryUrl]);
+  }, [subcategorySlug]);
 
   useEffect(() => {
     if (currentSubcategory) {

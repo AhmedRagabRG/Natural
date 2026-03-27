@@ -2124,6 +2124,24 @@ export class CategoryService {
     }
   }
 
+  static async getSubcategoryByUrl(subcategoryUrl: string) {
+    const connection = await pool.getConnection();
+    
+    try {
+      const query = 'SELECT * FROM af_subcategory WHERE category_url = ? AND status = 1';
+      const [rows] = await connection.execute(query, [subcategoryUrl]);
+      const subcategories = rows as SubCategory[];
+      
+      if (subcategories.length === 0) {
+        return null;
+      }
+
+      return subcategories[0];
+    } finally {
+      connection.release();
+    }
+  }
+
   static async getAllCategoriesDebug() {
     const connection = await pool.getConnection();
     
