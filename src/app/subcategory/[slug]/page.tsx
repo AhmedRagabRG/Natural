@@ -69,9 +69,12 @@ export default function SubcategoryPage() {
       const response = await fetch(`/api/products?subcategory_id=${currentSubcategory.id}`);
       const data = await response.json();
 
-      if (data.success && data.products && Array.isArray(data.products)) {
+      // Handle nested data structure (data.data.products)
+      const productsList = data.data?.products || data.products || [];
+      
+      if (data.success && Array.isArray(productsList)) {
         let productsWithImages = await Promise.all(
-          data.products.map(async (product: Product) => {
+          productsList.map(async (product: Product) => {
             const imageUrl = product.image_url || product.imageUrl || await getFirstImageUrl(product.images);
             return {
               ...product,
