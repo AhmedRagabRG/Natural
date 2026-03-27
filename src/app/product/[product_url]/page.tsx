@@ -447,17 +447,23 @@ const ProductPage = ({ params }: { params: Promise<{ product_url: string }> }) =
           )}
 
           {product.product_description && (
-            <div className="product-description" style={{
-              margin: "16px 0",
-              padding: "12px",
-              backgroundColor: "#f8f9fa",
-              borderRadius: "8px",
-              fontSize: "0.95rem",
-              lineHeight: "1.5",
-              color: "#666"
-            }}>
+            <div
+              className="product-description"
+              style={{
+                margin: "16px 0",
+                padding: "12px",
+                backgroundColor: "#f8f9fa",
+                borderRadius: "8px",
+                fontSize: "0.95rem",
+                lineHeight: "1.5",
+                color: "#666"
+              }}
+            >
               <i className="fas fa-info-circle" style={{ marginRight: "8px", color: "#007bff" }}></i>
-              {product.product_description}
+              <span
+                style={{ display: 'inline' }}
+                dangerouslySetInnerHTML={{ __html: product.product_description }}
+              />
             </div>
           )}
 
